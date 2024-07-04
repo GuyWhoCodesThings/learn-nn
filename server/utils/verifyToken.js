@@ -4,6 +4,7 @@ import { firebase } from "../firebase.js";
 export const verifyToken = async (req, res, next) => {
     if (req.headers?.authorization?.startsWith('Bearer ')) {
       const idToken = req.headers.authorization.split('Bearer ')[1];
+     
       try {
         const decodedToken = await firebase.auth().verifyIdToken(idToken);
         req.uid = decodedToken.uid;

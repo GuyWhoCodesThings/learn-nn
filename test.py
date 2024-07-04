@@ -1,7 +1,7 @@
 import torch
-class TanH(torch.nn.Module):
+class Sigmoid(torch.nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return x
+        print(x)
 import sys
 import json
 import torch
@@ -22,7 +22,7 @@ if __name__ == '__main__':
     y = json.loads(sys.argv[2])
     x = torch.tensor(x)
     y = torch.tensor(y)
-    m = TanH()
+    m = Sigmoid()
 
     response = {}
     with Capturing() as output:

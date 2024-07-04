@@ -1,0 +1,1 @@
+fix env file for server, firebase auth not working
