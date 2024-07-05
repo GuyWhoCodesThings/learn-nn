@@ -1,7 +1,3 @@
-import torch
-class TanH(torch.nn.Module):
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        pass
 import sys
 import json
 import torch
@@ -18,10 +14,16 @@ class Capturing(list):
         sys.stdout = self._stdout
 
 if __name__ == '__main__':
-    x = json.loads(sys.argv[1])
+    class_name = sys.arg[1]
+    x = json.loads(sys.argv[2])
     x = torch.tensor(x)
-    m = TanH()
 
+    try:
+        class_ref = getattr(sys.modules[__name__], class_name)
+    except AttributeError:
+        raise ValueError(f"Unknown function name: {class_name}")
+   
+    m = class_ref()
     response = {}
     with Capturing() as output:
         try:

@@ -15,11 +15,11 @@ const UnAuthNav = () => {
                 </li>
                 <li>
                     <div className="flex gap-4">
+                        <NavLink to="/sign-in" className="text-white">
+                            Login
+                        </NavLink>
                         <NavLink to="/sign-up" className="text-white">
                             Sign Up
-                        </NavLink>
-                        <NavLink to="/sign-in" className="text-white">
-                            Sign In
                         </NavLink>
                     </div>
                     

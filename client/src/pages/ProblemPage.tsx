@@ -1,7 +1,7 @@
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import Description from '../components/Description';
 import Output from '../components/Output';
-import { useNavigate, useParams } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
 import CodeEditor from '../components/CodeEditor';
 import { loadProblem, Problem, runProblem } from "../server/problem";
@@ -31,6 +31,7 @@ const ProblemPage = (props: {currentUser?: User, changeLoading: (b: boolean) => 
     };
 
  
+ 
     useEffect(() => {
         props.changeLoading(true)
         const fetchData = async(id: string) => {
@@ -45,46 +46,52 @@ const ProblemPage = (props: {currentUser?: User, changeLoading: (b: boolean) => 
         if (id) {
             fetchData(id)
         }
-        console.log(problem.tests.values)
+       
     }, [id, props.currentUser])
 
     const run = async (code: string): void => {
         
-        
-        if (user === undefined) {
-            
-            alert('must be signed in to run code')
-            navigate('/sign-in')
-        } else {
+        if (user) {
             const tests = problem.tests.values
             setActive(true)
-            await save(code)
-            
-            await runProblem(code + "\n" + problem.tests.content, tests, (o) => {
-                setOut(o)
+            runProblem(code + "\n" + problem.tests.content, tests, (o) => {
                 setActive(false)
+                setOut(o)
+                let correct = 0
+                for(let i = 0; i < tests.length; i++) {
+                    if (o.testCaseResults[i].result.message.slice(0,6) === 'passed') {
+                        correct += 1
+                    }
+                }
+                save(code, (correct === tests.length)) 
             })
-            
-            
+
+        } else {
+  
+            navigate('/sign-in')
+
         }
     }
 
-    const save = async (code: string): void => {
-        if (user === undefined) {
-            alert('must be signed in to save code')
-            navigate('/sign-in')
-        } else {
+    const save = async (code: string, completed: boolean): void => {
+        
+        if (user) {
             try {
-                await saveWork(user, code, problem.url, (msg) => console.log(msg))
+                await saveWork(user, code, problem.url, completed, (msg) => console.log(msg))
                
             } catch (error) {
                 console.log(error)
             }
+        } else {
+            navigate('/sign-in')
         }
     }
     
     return (
         <div className='w-screen h-screen bg-black'>
+            { !user &&
+                <div className="text bg-blue-400 bg-opacity-60">You need to <NavLink to="/sign-in"> Login / Sign Up</NavLink>  to run code </div>
+            }
             <PanelGroup 
             autoSaveId="example" 
             direction="horizontal" 
@@ -119,7 +126,12 @@ const ProblemPage = (props: {currentUser?: User, changeLoading: (b: boolean) => 
                                 spinner
                                 text='running code...'                   
                             />
-                            <CodeEditor starterCode={problem.starterCode} userCode={userCode} run={(c) => run(c)} save={(c) => save(c)} />
+                         
+                            <CodeEditor starterCode={problem.starterCode} userCode={userCode} run={(c) => run(c)} save={(c) => save(c, false)} />
+
+                        
+                            
+                            
                         </span>
                             
    

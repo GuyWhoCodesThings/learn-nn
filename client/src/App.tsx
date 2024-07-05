@@ -47,12 +47,11 @@ function App() {
     return <div>Loading...</div>
   }
 
-
   return (
     
     <BrowserRouter>  
-    {user === null ? <UnAuthNav /> : <AuthNav />}
-    {user === null ?
+    {user === null || user === undefined ? <UnAuthNav /> : <AuthNav />}
+    {user === null || user === undefined ?
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/problem/:id" element={<ProblemPage changeLoading={(b) => doLoadChange(b)}/>} />

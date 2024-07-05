@@ -69,10 +69,9 @@ export const loadUserCode = async (req, res) => {
 export const saveUserCode = async (req, res) => {
     try {
         const uid = req.uid;
-        const { url, code } = req.body;
+        const { url, code, completed } = req.body;
 
        
-
         if (typeof url !== 'string') {
             res.status(400).send('url must be a string');
             return;
@@ -83,6 +82,10 @@ export const saveUserCode = async (req, res) => {
         }
         if (typeof code !== 'string') {
             res.status(400).send('code must be a string');
+            return;
+        }
+        if (typeof completed !== 'boolean') {
+            res.status(400).send('completed must be boolean');
             return;
         }
 
@@ -97,9 +100,13 @@ export const saveUserCode = async (req, res) => {
         if (problemIndex >= 0) {
             
             user.problems[problemIndex].code = code;
+            if (completed) {
+                user.problems[problemIndex].status = "completed";
+            }
+            console.log('completed')
         } else {
-          
             user.problems.push({ url, code, status: "attempted" });
+            console.log('attempted')
         }
 
         await user.save();

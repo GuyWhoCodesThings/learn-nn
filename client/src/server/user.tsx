@@ -28,6 +28,7 @@ export const createUser = (user: User, cb: SaveUserCallback) => {
 
     user.getIdToken(true)
     .then((idToken) => {
+      
       fetch('http://localhost:3000/api/user/sign-up', {
         method: "POST",
         body: JSON.stringify({}),
@@ -188,7 +189,7 @@ const doLoadWorkError = (msg: string): void => {
 
 export type SaveWorkCallback = (msg: string) => void;
 
-export const saveWork = (user: User, code: string, url: string, cb: SaveWorkCallback) => {
+export const saveWork = (user: User, code: string, url: string, completed: boolean, cb: SaveWorkCallback) => {
 
 
     user.getIdToken(true)
@@ -198,6 +199,7 @@ export const saveWork = (user: User, code: string, url: string, cb: SaveWorkCall
         body: JSON.stringify({
           url: url,
           code: code,
+          completed: completed,
         }),
         headers: {
             "Content-type": "application/json",

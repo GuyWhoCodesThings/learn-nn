@@ -6,8 +6,10 @@ export const verifyToken = async (req, res, next) => {
       const idToken = req.headers.authorization.split('Bearer ')[1];
      
       try {
+       
         const decodedToken = await firebase.auth().verifyIdToken(idToken);
         req.uid = decodedToken.uid;
+        console.log('verified user')
         next();
       } catch (err) {
         res.status(400).send({error: "invalid id token"})

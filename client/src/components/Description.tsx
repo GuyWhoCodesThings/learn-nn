@@ -3,9 +3,22 @@ import { useEffect, useState } from "react"
 const Description = (props): JSX.Element => {
 
     const [problem, setProblem] = useState({})
+    const [hints, setHints] = useState([])
+
+
+    const handleHintChange = (idx: number) => {
+        const updatedHints = [...hints]; // Create a new array with the current hints
+        updatedHints[idx] = !updatedHints[idx]; // Toggle the hint at the specified index
+        setHints(updatedHints); // Update the state with the new array
+       
+    }
 
     useEffect(() => {
         setProblem(props.problem)
+        if (props.problem.hints) {
+            setHints(new Array(props.problem.hints.length).fill(false))
+        }
+       
     }, [props.problem])
     
     return (
@@ -51,7 +64,7 @@ const Description = (props): JSX.Element => {
                 {Array.isArray(problem.args) &&
                     <div className="mt-6 mb-2">
                     <p>args:</p>
-                    <ul className="text-sm list-disc list-inside">
+                    <ul className="text-sm list-decimal list-inside">
                             {problem.args.map((arg) => <li className="p-1">{arg}</li>)}        
                     </ul>
                    </div>
@@ -59,7 +72,7 @@ const Description = (props): JSX.Element => {
                 {Array.isArray(problem.returns) &&
                     <div className="mt-2 mb-6">
                     <p>returns:</p>
-                    <ul className="text-sm list-disc list-inside">
+                    <ul className="text-sm list-decimal list-inside">
                             {problem.returns.map((ret) => <li className="p-1">{ret}</li>)}        
                     </ul>
                    </div>
@@ -67,18 +80,50 @@ const Description = (props): JSX.Element => {
                 {Array.isArray(problem.constraints) &&
                     <div className="mt-2 mb-6">
                     <p>constraints:</p>
-                    <ul className="text-sm list-disc list-inside">
+                    <ul className="text-sm list-decimal list-inside">
                             {problem.constraints.map((c) => <li className="p-1">{c}</li>)}        
                     </ul>
                    </div>
                 }
                 {Array.isArray(problem.hints) &&
-                    <div className="mt-2 mb-6">
-                    <p>hints:</p>
-                    <ul className="text-sm list-disc list-inside">
-                            {problem.hints.map((h) => <li className="p-1">{h}</li>)}        
+         
+                    <ul className="list-inside">
+                            {problem.hints.map((h, idx) => {
+
+                                return (
+                                    <li className="p-1 pr-1 pl-1 border-t-2 border-zinc-700">
+                                        <div className="flex justify-between">
+                                            <span className="flex items-center gap-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+                                                </svg>
+                                                Hint {idx + 1}</span>
+                                            <button
+                                            className="flex items-center "
+                                            onClick={() => handleHintChange(idx)}>
+                                                {hints[idx] === true ? 
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
+                                                </svg> :
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+                                                </svg>
+                                                }
+                                            </button>
+                                        </div>
+                                        {hints[idx] &&
+                                        <div
+                                        className="text-sm ml-7">
+                                            {h}
+                                        </div>
+                                        }
+                                        
+                                        
+                                    </li>
+                                )
+                            })}        
                     </ul>
-                   </div>
+   
                 }
                 
                 

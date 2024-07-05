@@ -8,30 +8,20 @@ interface OutputProps {
 const Output = ({ problem, results }: OutputProps) => {
     const [tab, setTab] = useState(0)
     const [activeIdx, setActiveIdx] = useState(0);
-    const [numCorrect, setNumCorrect] = useState(0)
-    const [stdOut, setStdOut] = useState([])
-    const [stdErr, setStdErr] = useState('')
     const tests = problem.tests.values;
 
-    console.log(results)
 
     useEffect(() => {
 
         if (results && tests.length > 0) {
-            let correct = 0
-            for(let i = 0; i < tests.length; i++) {
-                if (results.testCaseResults[i].result.message.slice(0,6) === 'passed') {
-                    correct += 1
-                }
-            }
-            setNumCorrect(correct)
+            
             if (results.testCaseResults[activeIdx].result.error !== '') {
                 setTab(2)
             } else {
                 setTab(0)
             }
         }   
-        console.log("correct: ", numCorrect)
+       
     }, [results])
     
 
@@ -39,7 +29,7 @@ const Output = ({ problem, results }: OutputProps) => {
     return (
         <div className='rounded-md bg-zinc-800 mt-1 h-full w-full'>
             <div className='flex justify-between bg-zinc-700 h-8 rounded-t-md text-left pl-2 items-center pt-4 pb-4'>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
                     </svg>
@@ -48,11 +38,8 @@ const Output = ({ problem, results }: OutputProps) => {
                     className="h-8 bg-zinc-700 content-center flex items-center">
                         Tests
                     </button>
-                    <h3 className="h-8 bg-zinc-700 content-center flex items-center">
-                        {numCorrect} / {tests.length}
-                    </h3>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-1">
                     <button
                     onClick={() => setTab(1)}
                     className="h-8 bg-zinc-700 content-center flex items-center">
@@ -113,6 +100,7 @@ const Output = ({ problem, results }: OutputProps) => {
                                 </div>
                                 
 
+                                { results &&
                                 
                                 <div className="flex-col items-center m-2 text-left">
                                     <h3 className="mb-1">
@@ -121,14 +109,12 @@ const Output = ({ problem, results }: OutputProps) => {
                                     <div 
                                     className=
                                     {
-                                        results === undefined
-                                        ? "bg-zinc-700 text-left p-1 rounded-md w-full pl-4 min-h-8" 
-                                        : results.testCaseResults[activeIdx].result.message.slice(0,6) === "passed"
+                                       results.testCaseResults[activeIdx].result.message.slice(0,6) === "passed"
                                         ? "bg-zinc-700 text-green-500 text-left p-1 rounded-md w-full pl-4  min-h-8"
                                         : "bg-zinc-700 text-red-500 text-left p-1 rounded-md w-full pl-4  min-h-8"
                                     }
                                     >
-                                        {results === undefined  || results.testCaseResults[activeIdx].result.result === ''? '...' : results.testCaseResults[activeIdx].result.result}
+                                        {results.testCaseResults[activeIdx].result.result}
                                     </div>
                                     <h3 className="mb-1">
                                        status = 
@@ -136,18 +122,19 @@ const Output = ({ problem, results }: OutputProps) => {
                                     <div 
                                     className=
                                     {
-                                        results === undefined
-                                        ? "bg-zinc-700 text-left p-1 rounded-md w-full pl-4  min-h-8" 
-                                        : results.testCaseResults[activeIdx].result.message.slice(0,6) === "passed"
+                                       
+                                        results.testCaseResults[activeIdx].result.message.slice(0,6) === "passed"
                                         ? "bg-zinc-700 text-green-500 text-left p-1 rounded-md w-full pl-4  min-h-8"
                                         : "bg-zinc-700 text-red-500 text-left p-1 rounded-md w-full pl-4  min-h-8"
                                     }
                                     >
-                                        {results === undefined || results.testCaseResults[activeIdx].result.message === '' ? '...' : results.testCaseResults[activeIdx].result.message}
+                                        {results.testCaseResults[activeIdx].result.message}
                                     </div>
+                                
                                     
                                     
                                 </div>
+                                }
                                 
                             </>
                         )}
