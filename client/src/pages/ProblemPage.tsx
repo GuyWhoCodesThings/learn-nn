@@ -63,6 +63,7 @@ const ProblemPage = (props: {currentUser?: User, changeLoading: (b: boolean) => 
                         correct += 1
                     }
                 }
+                console.log(`correct: ${correct} / ${tests.length}`)
                 save(code, (correct === tests.length)) 
             })
 

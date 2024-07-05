@@ -28,12 +28,17 @@ function App() {
     setLoading(b)
   }
 
+  const handleUserInfoChange = (u: User) => {
+    loadUser(u, (e) => {
+      setUserInfo(e)
+    })
+  }
+
   useEffect(() => {
     doLoadChange(true)
-    const fetchData = async(u: User | null) => {
+    const fetchData = (u: User | null) => {
       if (u) {
-        await loadUser(u, (e) => setUserInfo(e))
-        await listProblems(setProblems)
+        listProblems(setProblems)
         console.log(`${u.email} logged in!`)
       } 
     }
@@ -61,7 +66,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/problem/:id" element={<ProblemPage currentUser={user} changeLoading={(b) => doLoadChange(b)}/>} />
-        <Route path="/profile" element={<Profile currentUser={user} userInfo={userInfo} totalProblems={problems.length}/>} />
+        <Route path="/profile" element={<Profile userInfo={userInfo} currentUser={user} totalProblems={problems.length} getInfo={(u: User) => handleUserInfoChange(u)}/>} />
         <Route path="/sign-out" element={<SignOut />} />
       </Routes>
       }

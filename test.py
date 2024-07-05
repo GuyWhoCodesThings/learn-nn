@@ -1,7 +1,7 @@
 import torch
-class TanH(torch.nn.Module):
+class ReLU(torch.nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        pass
+        return torch.max(x, torch.zeros_like(x))
 import sys
 import json
 import torch
@@ -20,7 +20,7 @@ class Capturing(list):
 if __name__ == '__main__':
     x = json.loads(sys.argv[1])
     x = torch.tensor(x)
-    m = TanH()
+    m = ReLU()
 
     response = {}
     with Capturing() as output:
