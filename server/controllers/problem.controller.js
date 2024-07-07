@@ -107,7 +107,7 @@ export const python = (req, res) => {
                 const shell = new PythonShell("test.py", {
                     mode: "text",
                     pythonOptions: ["-u"],
-                    args: ["Sigmoid"].concat(test),
+                    args: test,
                 });
 
                 const tempResults = {
