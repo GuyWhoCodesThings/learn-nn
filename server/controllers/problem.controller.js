@@ -89,13 +89,14 @@ export const listProblems = async (_req, res) => {
     } catch (e) {
         console.error(e.message);
         res.status(500).json({ message: "Server error" });
-    }
+    } 
 }
 export const python = (req, res) => {
+
     const code = req.body.code.replace(/\u00A0/g, " ");
     const tests = req.body.tests;
 
-    fs.writeFileSync("test.py", code);
+    fs.writeFileSync("submission.py", code);
 
     const promises = [];
     const testCaseResults = [];
@@ -106,7 +107,7 @@ export const python = (req, res) => {
                 const shell = new PythonShell("test.py", {
                     mode: "text",
                     pythonOptions: ["-u"],
-                    args: test,
+                    args: ["Sigmoid"].concat(test),
                 });
 
                 const tempResults = {

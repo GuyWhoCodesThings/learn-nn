@@ -54,7 +54,7 @@ const ProblemPage = (props: {currentUser?: User, changeLoading: (b: boolean) => 
         if (user) {
             const tests = problem.tests.values
             setActive(true)
-            runProblem(code + "\n" + problem.tests.content, tests, (o) => {
+            runProblem(code, tests, (o) => {
                 setActive(false)
                 setOut(o)
                 let correct = 0

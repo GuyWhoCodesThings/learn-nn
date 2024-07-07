@@ -102,6 +102,8 @@ export const saveUserCode = async (req, res) => {
             user.problems[problemIndex].code = code;
             if (completed) {
                 user.problems[problemIndex].status = "completed";
+            } else {
+                user.problems[problemIndex].status = "attempted";
             }
             console.log('completed')
         } else {

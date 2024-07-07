@@ -1,12 +1,10 @@
-import torch
-class ReLU(torch.nn.Module):
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return torch.max(x, torch.zeros_like(x))
 import sys
 import json
 import torch
-import math
 import io
+import submission
+
+
 class Capturing(list):
     def __enter__(self):
         self._stdout = sys.stdout
@@ -18,16 +16,22 @@ class Capturing(list):
         sys.stdout = self._stdout
 
 if __name__ == '__main__':
-    x = json.loads(sys.argv[1])
+    class_name = sys.argv[1]
+    x = json.loads(sys.argv[2])
     x = torch.tensor(x)
-    m = ReLU()
 
+    try:
+        class_ref = getattr(submission, class_name)
+    except AttributeError:
+        raise ValueError(f"Unknown function name: {class_name}")
+   
+    m = class_ref()
     response = {}
     with Capturing() as output:
         try:
             pred = m(x)
             response['result'] = str(pred)
-            torch.testing.assert_close(pred, torch.tensor(json.loads(sys.argv[2])))
+            torch.testing.assert_close(pred, torch.tensor(json.loads(sys.argv[3])))
             response['message'] = 'passed'
         except AssertionError as e:
             response['message'] = f'failed: {e}'

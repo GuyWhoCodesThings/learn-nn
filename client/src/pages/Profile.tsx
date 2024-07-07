@@ -36,7 +36,7 @@ const Profile = (props: {userInfo: Array<any>, currentUser: User, totalProblems:
       <div className="">
         <h3 className="bg-zinc-700 m-1 flex justify-center p-6 pl-5 pr-5 h-10 content-center items-center font-bold">
           <p className="items-center content-center">
-            Completed: {props.userInfo && props.userInfo.filter((problem) => problem.status === 'completed').length} / {props.totalProblems}
+            Completed: {props.userInfo && props.userInfo.filter((problem) => problem.status === 'completed').length}
           </p>
         </h3>
         <ul>
@@ -57,7 +57,7 @@ const Profile = (props: {userInfo: Array<any>, currentUser: User, totalProblems:
       <div className="">
         <h3 className="bg-zinc-700 m-1 flex justify-center p-6 pl-5 pr-5 h-10 content-center items-center font-bold">
           <p className="items-center content-center">
-            Attempted: {props.userInfo && props.userInfo.filter((problem) => problem.status === 'attempted').length} / {props.totalProblems}
+            Attempted: {props.userInfo && props.userInfo.filter((problem) => problem.status === 'attempted').length}
           </p>
         </h3>
         <ul>
