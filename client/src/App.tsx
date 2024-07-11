@@ -14,38 +14,72 @@ import SignOut from './pages/SignOut.js';
 import { loadUser, UserWork } from './server/user.js';
 import { User } from 'firebase/auth';
 import { listProblems } from './server/problem.js';
+import Submission from './pages/Submission.js';
+import Alert from './components/Alert.js';
+import { userInfoToSet } from './functions.js';
 
 
 
 function App() {
 
   const [user] = useAuthState(auth)
-  const [userInfo, setUserInfo] = useState<UserWork | undefined>(undefined)
-  const [problems, setProblems] = useState<Array>([])
-  const [loading, setLoading] = useState(false)
+  const [problems, setProblems] = useState<Array | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [alert, setAlert] = useState<{ message: string, theme: string } | null>(null)
+  const [infoSet, setInfoSet] = useState<object | null>(null)
+
 
   const doLoadChange = (b: boolean): void => {
     setLoading(b)
   }
 
-  const handleUserInfoChange = (u: User) => {
-    loadUser(u, (e) => {
-      setUserInfo(e)
-    })
+  
+  const doUserInfoChange = (u: User) => {
+   
+    loadUser(u, (i) => { 
+      console.log(i)
+      const s = userInfoToSet(i)
+      console.log(s)
+      setInfoSet(s)
+      
+    }) 
+  }
+
+  const doAlert = (message: string, theme: string): void => {
+    setAlert({message: message, theme: theme})
+    setTimeout(() => {
+      setAlert(null)
+    }, 4000)
   }
 
   useEffect(() => {
     doLoadChange(true)
+    console.log('user changed')
     const fetchData = (u: User | null) => {
-      if (u) {
-        listProblems(setProblems)
-        console.log(`${u.email} logged in!`)
-      } 
+     
+      listProblems((p) => {
+        setProblems(p)
+        if (u) {
+           
+          loadUser(u, (i) => { 
+            setInfoSet(userInfoToSet(i))
+            doAlert(`${u.email} logged in!`, "success")
+            console.log(`${u.email} logged in!`)
+            doLoadChange(false)
+          })
+        } else {
+          setInfoSet(null)
+          doLoadChange(false)
+        } 
+        doLoadChange(false)
+      })
+      
     }
+    
     if (user !== undefined) {
       fetchData(user)
     }
-    doLoadChange(false)
+
   }, [user])
 
   if (loading) {
@@ -58,19 +92,23 @@ function App() {
     {user === null || user === undefined ? <UnAuthNav /> : <AuthNav />}
     {user === null || user === undefined ?
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/problem/:id" element={<ProblemPage changeLoading={(b) => doLoadChange(b)}/>} />
+        <Route path="/" element={<Home infoSet={infoSet} problems={problems}/>} />
+        <Route path="/problem/:id" element={<ProblemPage alert={(m,t) => doAlert(m,t)} changeLoading={(b) => doLoadChange(b)}/>} />
         <Route path="/sign-in" element={<SignIn  />} />
         <Route path="/sign-up" element={< SignUp />} />
       </Routes> : 
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/problem/:id" element={<ProblemPage currentUser={user} changeLoading={(b) => doLoadChange(b)}/>} />
-        <Route path="/profile" element={<Profile userInfo={userInfo} currentUser={user} totalProblems={problems.length} getInfo={(u: User) => handleUserInfoChange(u)}/>} />
+        <Route path="/" element={<Home infoSet={infoSet} problems={problems} />} />
+        <Route path="/problem/:id" element={<ProblemPage updateUserInfo={() => doUserInfoChange(user)} alert={(m,t) => doAlert(m,t)} currentUser={user} changeLoading={(b) => doLoadChange(b)}/>} />
+        <Route path="/profile" element={<Profile problems={problems} infoSet={infoSet}  currentUser={user}/>} />
         <Route path="/sign-out" element={<SignOut />} />
       </Routes>
       }
-    </BrowserRouter>
+      {alert &&
+      <Alert message={alert?.message} theme={alert?.theme}/>
+      }
+      </BrowserRouter>
+
   )
 }
 

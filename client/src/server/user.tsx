@@ -1,6 +1,5 @@
 import { User } from "firebase/auth";
 import { isRecord } from "../functions";
-import { MarkdownStringTrustedOptions } from "monaco-editor";
 
 export type UserWork = Array<Record<string, string>>
 
@@ -72,28 +71,31 @@ export type LoadUserCallback = (problems: UserWork) => void;
 
 export const loadUser = (user: User, cb: LoadUserCallback) => {
 
+  
   user.getIdToken(true)
-  .then((idToken) => {
-    fetch(`http://localhost:3000/api/user/load` , {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json",
-        "Authorization": `Bearer ${idToken}`,
-      }
+    .then((idToken) => {
+      fetch(`http://localhost:3000/api/user/load`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${idToken}`,
+        }
+      })
+      .then((res) => doLoadUserResp(res, cb))
+      .catch(() => doLoadUserError("failed to connect to server"));
     })
-    .then((res) => doLoadUserResp(res, cb)) 
-    .catch(() => doLoadUserError("failed to connect to server"));
-
-  })
-  .catch(() => doLoadUserError("failed to get token"))
-}
+    .catch(() => doLoadUserError("failed to get token"));
+};
 
 const doLoadUserResp = (res: Response, cb: LoadUserCallback): void => {
+  
   if (res.status === 200) {
-    res.json().then((problems) => doLoadUserJson(problems, cb))
+    res.json()
+      .then((problems) => doLoadUserJson(problems, cb))
       .catch(() => doLoadUserError("200 response is not JSON"));
   } else if (res.status === 400) {
-    res.text().then(doLoadUserError)
+    res.text()
+      .then(doLoadUserError)
       .catch(() => doLoadUserError("400 response is not text"));
   } else {
     doLoadUserError(`bad status code: ${res.status}`);
@@ -101,6 +103,7 @@ const doLoadUserResp = (res: Response, cb: LoadUserCallback): void => {
 };
 
 const doLoadUserJson = (problems: UserWork, cb: LoadUserCallback): void => {
+ 
   if (!Array.isArray(problems)) {
     doLoadUserError('problems not an array');
     return;
@@ -120,8 +123,9 @@ const doLoadUserJson = (problems: UserWork, cb: LoadUserCallback): void => {
 };
 
 const doLoadUserError = (msg: string): void => {
-  console.error(`Error fetching /api/save: ${msg}`);
+  console.error(`Error fetching /api/user/load: ${msg}`);
 };
+
 
 
 export type LoadWorkCallback = (work: UserProblem) => void;
@@ -189,7 +193,7 @@ const doLoadWorkError = (msg: string): void => {
 
 export type SaveWorkCallback = (msg: string) => void;
 
-export const saveWork = (user: User, code: string, url: string, completed: boolean, cb: SaveWorkCallback) => {
+export const saveWork = (user: User, code: string, url: string, completed: boolean, time: number, cb: SaveWorkCallback) => {
 
 
     user.getIdToken(true)
@@ -199,6 +203,7 @@ export const saveWork = (user: User, code: string, url: string, completed: boole
         body: JSON.stringify({
           url: url,
           code: code,
+          time: time,
           completed: completed,
         }),
         headers: {

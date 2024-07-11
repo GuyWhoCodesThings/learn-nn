@@ -16,25 +16,24 @@ class Capturing(list):
         sys.stdout = self._stdout
 
 if __name__ == '__main__':
+    response = {}
     class_name = sys.argv[1]
-    x = json.loads(sys.argv[2])
-    x = torch.tensor(x)
-
+    inputs = [torch.tensor(json.loads(a), dtype=torch.float32) for a in sys.argv[3:]]
     try:
         class_ref = getattr(submission, class_name)
     except AttributeError:
         raise ValueError(f"Unknown function name: {class_name}")
    
     m = class_ref()
-    response = {}
+    
     with Capturing() as output:
         try:
-            pred = m(x)
+            pred = m(*inputs)
             response['result'] = str(pred)
-            torch.testing.assert_close(pred, torch.tensor(json.loads(sys.argv[3])))
+            torch.testing.assert_close(pred, torch.tensor(json.loads(sys.argv[2]), dtype=torch.float32), rtol=1e-2, atol=1e-4)
             response['message'] = 'passed'
         except AssertionError as e:
             response['message'] = f'failed: {e}'
     
-    response['out'] = output
+    response['out'] = "\n".join(output)
     print(json.dumps(response))

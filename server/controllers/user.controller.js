@@ -54,7 +54,7 @@ export const loadUserCode = async (req, res) => {
             return;
 
         } else {
-            console.log('no code yet...')
+           
             res.status(200).json({code: ''})
             return;
         }
@@ -69,7 +69,7 @@ export const loadUserCode = async (req, res) => {
 export const saveUserCode = async (req, res) => {
     try {
         const uid = req.uid;
-        const { url, code, completed } = req.body;
+        const { url, code, completed, time } = req.body;
 
        
         if (typeof url !== 'string') {
@@ -88,6 +88,10 @@ export const saveUserCode = async (req, res) => {
             res.status(400).send('completed must be boolean');
             return;
         }
+        if (typeof time !== 'number') {
+            res.status(400).send('time must be a number');
+            return;
+        }
 
         const user = await User.findOne({ uid });
 
@@ -100,15 +104,16 @@ export const saveUserCode = async (req, res) => {
         if (problemIndex >= 0) {
             
             user.problems[problemIndex].code = code;
+            user.problems[problemIndex].time = time;
             if (completed) {
                 user.problems[problemIndex].status = "completed";
             } else {
                 user.problems[problemIndex].status = "attempted";
             }
-            console.log('completed')
+            
         } else {
-            user.problems.push({ url, code, status: "attempted" });
-            console.log('attempted')
+            user.problems.push({ url, code, status: "attempted", time });
+           
         }
 
         await user.save();
@@ -137,8 +142,9 @@ export const load = async (req, res) => {
             return;
         }
         
-        res.status(200).send(currentUser.problems)
-        return;
+       
+        res.status(200).json(currentUser.problems)
+       
 
     } catch (e) {
         console.error(e.message);

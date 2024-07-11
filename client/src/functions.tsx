@@ -6,3 +6,18 @@
 export const isRecord = (val: unknown): val is Record<string, unknown> => {
     return val !== null && typeof val === "object";
 };
+
+export const userInfoToSet = (ps?: []): object => {
+    
+    const comp = new Set()
+    const att = new Set()
+    if (!ps) return {comp: comp, att: att}
+    for (const p of ps) {
+      if (p.status === 'completed') {
+        comp.add(p.url)
+      } else {
+        att.add(p.url)
+      }
+    }
+    return {comp: comp, att: att}
+  }

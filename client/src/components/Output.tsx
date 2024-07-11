@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 
 interface OutputProps {
     problem: object;
+    accepted: number;
+    time: number;
     results: { testCaseResults: { result: any }[] } | undefined;
 }
 
-const Output = ({ problem, results }: OutputProps) => {
+const Output = ({ problem, results, accepted, time }: OutputProps) => {
     const [tab, setTab] = useState(0)
     const [activeIdx, setActiveIdx] = useState(0);
-    const tests = problem.tests.values;
-
+    const tests = problem.tests
 
     useEffect(() => {
 
@@ -22,7 +23,7 @@ const Output = ({ problem, results }: OutputProps) => {
             }
         }   
        
-    }, [results])
+    }, [results, accepted, time])
     
 
 
@@ -55,30 +56,40 @@ const Output = ({ problem, results }: OutputProps) => {
             </div>
             {(tests && tab === 0)  && (
                 <div>
-                    <ul className="flex flex-row items-start w-full gap-4 m-2">
-                        {tests.map((_test, idx) => (
-                            <li key={idx}>
-                                <button 
-                                    className={idx === activeIdx ? 'bg-zinc-700 pr-4 pl-4 rounded-md' : 'bg-zinc-700 opacity-60 pl-4 pr-4 rounded-md'}
-                                    onClick={() => setActiveIdx(idx)}
-                                >
-                                    
-                                    <span
-                                     className=
-                                     {
-                                         results === undefined
-                                         ? "text-left " 
-                                         : results.testCaseResults[idx].result.message.slice(0,6) === "passed"
-                                         ? " text-green-500 "
-                                         : " text-red-500 "
-                                     }
-                                    > 
-                                        Case {idx + 1}
-                                    </span>
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
+                    <div className="flex items-center">
+                       
+                        <ul className="flex flex-row items-start w-full gap-4 m-2">
+                            {tests.map((_test, idx) => (
+                                <li key={idx}>
+                                    <button 
+                                        className={idx === activeIdx ? 'bg-zinc-700 pr-4 pl-4 rounded-md' : 'bg-zinc-700 opacity-60 pl-4 pr-4 rounded-md'}
+                                        onClick={() => setActiveIdx(idx)}
+                                    >
+                                        
+                                        <span
+                                        className=
+                                        {
+                                            results === undefined
+                                            ? "text-left " 
+                                            : results.testCaseResults[idx].result.message.slice(0,6) === "passed"
+                                            ? " text-green-500 "
+                                            : " text-red-500 "
+                                        }
+                                        > 
+                                            Case {idx + 1}
+                                        </span>
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                        {(accepted === 1 && time > 0) &&
+                        <div
+                        className="pr-6">
+                            <p className="text-green-500 font-bold text-lg ">Accepted</p>
+                            <p className="text-sm font-light text-zinc-400">{time} ms</p>
+                        </div>
+                        }  
+                    </div>
                     <div className="ml-2 w-full flex-col">
                         {tests[activeIdx] && (
                             <>
@@ -86,8 +97,11 @@ const Output = ({ problem, results }: OutputProps) => {
                                     <h3 className="mb-1">
                                         input = 
                                     </h3>
-                                    <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4 h-8">
-                                        {`tensor(${String(tests[activeIdx][0])})`}
+                                    <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4 h-8 flex gap-2">
+                                        {tests[activeIdx].slice(2).map((item, idx) => {
+                                            return <p>tensor({String(item)}) {idx < tests[activeIdx].length - 1 ? "," : ""}</p>
+                                        })}
+                                    
                                     </div>
                                 </div>
                                 <div className="flex-col items-center m-2 text-left">

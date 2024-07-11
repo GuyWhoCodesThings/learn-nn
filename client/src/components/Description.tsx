@@ -4,7 +4,7 @@ const Description = (props): JSX.Element => {
 
     const [problem, setProblem] = useState({})
     const [hints, setHints] = useState([])
-
+   
 
     const handleHintChange = (idx: number) => {
         const updatedHints = [...hints]; // Create a new array with the current hints
@@ -19,28 +19,46 @@ const Description = (props): JSX.Element => {
             setHints(new Array(props.problem.hints.length).fill(false))
         }
        
-    }, [props.problem])
+    }, [props.problem, props.accepted])
     
     return (
         <div className=' rounded-md bg-zinc-800 m-1 h-full '>
                     
-            <div className='flex pt-1 pb-1 bg-zinc-700 h-8 rounded-t-md text-left pl-2 items-center'>
+            <div className='flex pt-1 pb-1 bg-zinc-700 h-8 rounded-t-md text-left pl-2 items-center gap-2'>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                 </svg>
                 <h3
-                className="bg-inherit flex items-center text-center">
+               
+                className="bg-none flex items-center text-center">
                     Description
                 </h3>
+             
+                
                 
             </div>
-           
+
             <div className="m-2 text-left flex-col">
                 <div className="pt-2 pb-2">
                   
                     
-                    <h3 className="font-semibold text-xl">
+                    <h3 className="font-semibold text-xl flex gap-2 items-center">
+                        
+                        
+                        {props.accepted === 1 ?
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8 text-green-500">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                        </svg>
+                        :
+                        props.accepted === 0 ?
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 text-orange-500">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 7.5A2.25 2.25 0 0 1 7.5 5.25h9a2.25 2.25 0 0 1 2.25 2.25v9a2.25 2.25 0 0 1-2.25 2.25h-9a2.25 2.25 0 0 1-2.25-2.25v-9Z" />
+                      </svg>
+                        :
+                        <div></div>
+                        }
                         {problem.title}
+                        
                     </h3>
                   
                     <div className="flex gap-2 items-center">
@@ -52,9 +70,6 @@ const Description = (props): JSX.Element => {
                         </p>
 
                     </div>
-                    
-                  
-
                 </div>
       
                 <p className=" text-sm bg-zinc-700 rounded-md mt-2 mb-2 p-2">
@@ -65,7 +80,7 @@ const Description = (props): JSX.Element => {
                     <div className="mt-6 mb-2">
                     <p>args:</p>
                     <ul className="text-sm list-decimal list-inside">
-                            {problem.args.map((arg) => <li className="p-1">{arg}</li>)}        
+                            {problem.args.map((arg, idx) => <li key={idx} className="p-1">{arg}</li>)}        
                     </ul>
                    </div>
                 }
@@ -73,7 +88,7 @@ const Description = (props): JSX.Element => {
                     <div className="mt-2 mb-6">
                     <p>returns:</p>
                     <ul className="text-sm list-decimal list-inside">
-                            {problem.returns.map((ret) => <li className="p-1">{ret}</li>)}        
+                            {problem.returns.map((ret, idx) => <li key={idx} className="p-1">{ret}</li>)}        
                     </ul>
                    </div>
                 }
@@ -81,7 +96,7 @@ const Description = (props): JSX.Element => {
                     <div className="mt-2 mb-6">
                     <p>constraints:</p>
                     <ul className="text-sm list-decimal list-inside">
-                            {problem.constraints.map((c) => <li className="p-1">{c}</li>)}        
+                            {problem.constraints.map((c, idx) => <li key={idx} className="p-1">{c}</li>)}        
                     </ul>
                    </div>
                 }
@@ -91,7 +106,7 @@ const Description = (props): JSX.Element => {
                             {problem.hints.map((h, idx) => {
 
                                 return (
-                                    <li className="p-1 pr-1 pl-1 border-t-2 border-zinc-700">
+                                    <li key={idx} className="p-1 pr-1 pl-1 border-t-2 border-zinc-700">
                                         <div className="flex justify-between">
                                             <span className="flex items-center gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
@@ -129,6 +144,7 @@ const Description = (props): JSX.Element => {
                 
                 
             </div>
+           
             
         </div>
         

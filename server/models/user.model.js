@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
                 url: String,
                 status: String, // "completed", "started"
                 code: String,
+                time: Number,
             }
         ],
         default: []

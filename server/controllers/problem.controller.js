@@ -5,7 +5,7 @@ import {PythonShell} from 'python-shell';
 export const createProblem = async (req, res) => {
 
     try {
-        console.log(req.body)
+     
         const {title, description, starterCode, difficulty} = req.body;
 
         if (typeof title === 'undefined') {
@@ -93,6 +93,8 @@ export const listProblems = async (_req, res) => {
 }
 export const python = (req, res) => {
 
+    const ms = 10000
+
     const code = req.body.code.replace(/\u00A0/g, " ");
     const tests = req.body.tests;
 
@@ -100,37 +102,52 @@ export const python = (req, res) => {
 
     const promises = [];
     const testCaseResults = [];
-   
+
+    const start = performance.now();
+
     tests.forEach((test) => {
         promises.push(
             new Promise((resolve, reject) => {
-                const shell = new PythonShell("test.py", {
-                    mode: "text",
-                    pythonOptions: ["-u"],
-                    args: test,
-                });
 
                 const tempResults = {
                     out: [],    // To capture stdout messages
                     result: "", // To store the final result
                     message: "", // To store the message (e.g., 'passed' or 'failed')
-                    error: ""   // To store any errors encountered
+                    error: "",   // To store any errors encountered
+                    time: 0
                 };
 
+                const command = `test.py`; // Limit to 1GB (1048576 KB)
+                console.log("test: ", test)
+                const shell = new PythonShell(command, {
+                    mode: "text",
+                    pythonOptions: ["-u"],
+                    args: test,
+                });
+
+                const kill = setTimeout(() => {
+                    tempResults.error += `\nScript timed out after ${ms} ms`;
+                    shell.childProcess.kill();
+                }, ms)
+
+                
+
                 shell.on("error", (err) => {
-                    tempResults.error = err.message;
+                    tempResults.error += "\n" + err.message;
+          
                     reject(err); // Reject promise on error
                 });
 
                 shell.on("stderr", (stderr) => {
-                    tempResults.error = stderr;
+           
+                    tempResults.error += "\n" + stderr;
                 });
 
                 shell.on("message", (message) => {
                     try {
                         const parsedMessage = JSON.parse(message);
                         if (parsedMessage.hasOwnProperty('out')) {
-                            tempResults.out.push(parsedMessage.out); // Append with newline
+                            tempResults.out.push(parsedMessage.out);
                         }
                         if (parsedMessage.hasOwnProperty('result')) {
                             tempResults.result = parsedMessage.result;
@@ -145,25 +162,28 @@ export const python = (req, res) => {
                 });
 
                 shell.end((err) => {
+                    
                     if (err) {
-                        tempResults.error = `End Error: ${err.message}`;
+                        tempResults.error += `\nEnd Error: ${err.message}`;
                         testCaseResults.push({ result: tempResults });
                         reject(err);
                     } else {
                         testCaseResults.push({ result: tempResults });
                         resolve(true);
                     }
+                    clearTimeout(kill)
                 });
             })
         );
     });
 
     Promise.allSettled(promises)
-        .then(() => {
-            res.json({ testCaseResults });
+        .then(() => Math.floor(performance.now() - start))
+        .then((time) => {
+            res.json({ testCaseResults, time: time });
         })
-        .catch((err) => {
+        .catch((time, err) => {
             console.error("Promise.all Error:", err);
-            res.json({ testCaseResults });
+            res.json({ testCaseResults, time: time });
         });
 };

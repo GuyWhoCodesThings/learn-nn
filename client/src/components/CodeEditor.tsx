@@ -33,7 +33,6 @@ const CodeEditor = (props: {userCode: string, starterCode: string, run: (x: stri
       } else {
         setCode(props.starterCode)
       }
-      console.log(code)
     } else didMountRef.current = true
   }, [props.userCode, props.starterCode])
 
@@ -53,7 +52,7 @@ const CodeEditor = (props: {userCode: string, starterCode: string, run: (x: stri
               Save
           </button>
           <button onClick={() => props.run(code)} className='items-center flex bg-green-600'>
-            Run
+            Submit
           </button>
         </div>
                               

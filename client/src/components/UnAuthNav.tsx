@@ -14,7 +14,7 @@ const UnAuthNav = () => {
                     </NavLink>
                 </li>
                 <li>
-                    <div className="flex gap-4">
+                    <div className="flex gap-6">
                         <NavLink to="/sign-in" className="text-white">
                             Login
                         </NavLink>
