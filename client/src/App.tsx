@@ -37,9 +37,7 @@ function App() {
   const doUserInfoChange = (u: User) => {
    
     loadUser(u, (i) => { 
-      console.log(i)
       const s = userInfoToSet(i)
-      console.log(s)
       setInfoSet(s)
       
     }) 

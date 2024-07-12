@@ -80,6 +80,7 @@ const ProblemPage = (props: {currentUser?: User, changeLoading: (b: boolean) => 
             setActive(true)
             runProblem(code, tests, (o) => {
                 setActive(false)
+                console.log(o)
                 setOut(o)
                 
                 let correct = 0

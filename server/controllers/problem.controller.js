@@ -118,11 +118,11 @@ export const python = (req, res) => {
                 };
 
                 const command = `test.py`; // Limit to 1GB (1048576 KB)
-                console.log("test: ", test)
+                // console.log("test: ", test)
                 const shell = new PythonShell(command, {
                     mode: "text",
                     pythonOptions: ["-u"],
-                    args: test,
+                    args: [test[0]].concat(test.map(arg => JSON.stringify(arg)).slice(1)),
                 });
 
                 const kill = setTimeout(() => {

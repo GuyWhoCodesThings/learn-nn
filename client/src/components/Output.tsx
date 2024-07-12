@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Matrix from "./Matrix";
 
 interface OutputProps {
     problem: object;
@@ -7,10 +8,16 @@ interface OutputProps {
     results: { testCaseResults: { result: any }[] } | undefined;
 }
 
+
+
+
 const Output = ({ problem, results, accepted, time }: OutputProps) => {
     const [tab, setTab] = useState(0)
     const [activeIdx, setActiveIdx] = useState(0);
     const tests = problem.tests
+
+    
+    
 
     useEffect(() => {
 
@@ -25,7 +32,6 @@ const Output = ({ problem, results, accepted, time }: OutputProps) => {
        
     }, [results, accepted, time])
     
-
 
     return (
         <div className='rounded-md bg-zinc-800 mt-1 h-full w-full'>
@@ -94,22 +100,38 @@ const Output = ({ problem, results, accepted, time }: OutputProps) => {
                         {tests[activeIdx] && (
                             <>
                                 <div className="flex-col items-center m-2 text-left">
-                                    <h3 className="mb-1">
-                                        input = 
-                                    </h3>
-                                    <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4 h-8 flex gap-2">
-                                        {tests[activeIdx].slice(2).map((item, idx) => {
-                                            return <p>tensor({String(item)}) {idx < tests[activeIdx].length - 1 ? "," : ""}</p>
-                                        })}
-                                    
+                                    {tests[activeIdx].length < 4 ?
+                                    <div>
+                                        <h3 className="mb-1">
+                                            input = 
+                                        </h3>
+                                        <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4 gap-2">
+                                            <Matrix matrix={tests[activeIdx][2]} />
+                                        </div>
                                     </div>
+                                    :
+                                    <div>
+                                        <h3 className="mb-1">
+                                            y_pred = 
+                                        </h3>
+                                        <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4 flex gap-2">
+                                            <Matrix matrix={tests[activeIdx][2]} />
+                                        </div>
+                                        <h3 className="mb-1">
+                                            y_true = 
+                                        </h3>
+                                        <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4 flex gap-2">
+                                            <Matrix matrix={tests[activeIdx][3]} />
+                                        </div>
+                                    </div>
+                                    }
                                 </div>
                                 <div className="flex-col items-center m-2 text-left">
                                     <h3 className="mb-1">
                                         target =  
                                     </h3>
-                                    <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4 h-8">
-                                        {`tensor(${String(tests[activeIdx][1])})`}
+                                    <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4">
+                                        <Matrix matrix={tests[activeIdx][1]} />
                                     </div>
                                 </div>
                                 
@@ -163,7 +185,7 @@ const Output = ({ problem, results, accepted, time }: OutputProps) => {
                 </h3>
                 <ul className="flex-col text-left p-2 bg-zinc-700 m-4 rounded-md min-h-10">
                 {(results && results.testCaseResults[activeIdx].result.out[0]) &&
-                results.testCaseResults[activeIdx].result.out[0].map((o) => <li>{o}</li>)
+                results.testCaseResults[activeIdx].result.out
                 }
             </ul>
                 
@@ -189,10 +211,3 @@ const Output = ({ problem, results, accepted, time }: OutputProps) => {
 
 export default Output;
 
-/**
- * className={
-                                        (results && results.testCaseResults[activeIdx]?.result[1] === 'passed')
-                                            ? "bg-zinc-700 text-green-500 text-left p-1 rounded-md w-full pl-4"
-                                            : "bg-zinc-700 text-red-500 text-left p-1 rounded-md w-full pl-4"
-                                    }
- */
