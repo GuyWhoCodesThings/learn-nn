@@ -10,7 +10,7 @@ export default function Reset() {
     const [ sent, setSent ] = useState(false)
 
     
-    const onResetClick = (e) => {
+    const onResetClick = (e:  React.MouseEvent<HTMLButtonElement>) => {
         setError('')
         e.preventDefault()
         sendPasswordResetEmail(auth, email)

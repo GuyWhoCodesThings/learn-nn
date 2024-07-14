@@ -1,14 +1,19 @@
-const Matrix = (props) => {
+
+type MatrixProps = {
+    matrix: string
+}
+
+const Matrix = (props: MatrixProps) => {
 
    
     const s = JSON.stringify(props.matrix).replaceAll(',', ', ')
-    const m = s.split(/[\[\]]/).filter((v) => /\d/.test(v))
+    const m = s.split(/[[]]/).filter((v: string) => /\d/.test(v))
 
     return (
 
             <ul className='flex flex-col'>
                 
-                {m.map((nums, idx) => <li key={idx}>{idx === 0 && ""}[{nums}]{idx === m.length - 1 && ""}</li>)}
+                {m.map((nums: string, idx: number) => <li key={idx}>{nums}{idx === m.length - 1 && ""}</li>)}
                 
             </ul> 
         )

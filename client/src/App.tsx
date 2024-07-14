@@ -9,22 +9,27 @@ import { auth } from './firebase.tsx';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import UnAuthNav from './components/UnAuthNav.js';
 import AuthNav from './components/AuthNav.js';
-import { loadUser } from './server/user.js';
+import { loadUser, UserProblem } from './server/user.js';
 import { User } from 'firebase/auth';
-import { listProblems } from './server/problem.js';
+import { listProblems, Problem } from './server/problem.js';
 import Alert from './components/Alert.js';
 import { userInfoToSet } from './functions.js';
 import Reset from './pages/Reset.js';
 
+export type iSet = 
+{
+  comp: {has: (u: string) => boolean},
+  att: {has: (u: string) => boolean}
+}
 
 
 function App() {
 
   const [user] = useAuthState(auth)
-  const [problems, setProblems] = useState<Array<string> | null>(null)
+  const [problems, setProblems] = useState<[Problem] | null>(null)
   const [loading, setLoading] = useState(true)
   const [alert, setAlert] = useState<{ message: string, theme: string } | null>(null)
-  const [infoSet, setInfoSet] = useState<object | null>(null)
+  const [infoSet, setInfoSet] = useState<iSet | null>(null)
 
 
   const doLoadChange = (b: boolean): void => {
@@ -34,7 +39,7 @@ function App() {
   
   const doUserInfoChange = (u: User) => {
    
-    loadUser(u, (i) => { 
+    loadUser(u, (i: [UserProblem] | []) => { 
       if (i) {
         const s = userInfoToSet(i)
         setInfoSet(s)
@@ -55,11 +60,11 @@ function App() {
     console.log('user changed')
     const fetchData = (u: User | null) => {
      
-      listProblems((p) => {
+      listProblems((p: [Problem]) => {
         setProblems(p)
         if (u) {
            
-          loadUser(u, (i) => { 
+          loadUser(u, (i: [UserProblem]) => { 
             if (i) {
               setInfoSet(userInfoToSet(i))
               doAlert(`${u.email} logged in!`, "success")

@@ -1,23 +1,24 @@
 import { User } from "firebase/auth";
 import { isRecord } from "../functions";
 
-export type UserWork = Array<Record<string, string>>
+
 
 export type UserProblem = {url: string, status: string, code: string}
+export type UserWork = [UserProblem]
 
-// const checkTypeUserProblem = (obj: Record<string, string>) => {
-//   if (typeof obj['title'] !== "string") {
-//     return false;
-//   }
-//   if (typeof obj['status'] !== "string") {
-//     return false;
-//   }
-//   if (typeof obj['code'] !== "string") {
-//     return false;
-//   }
-//   return true;
+const checkTypeUserProblem = (obj: Record<string, string>) => {
+  if (typeof obj['url'] !== "string") {
+    return false;
+  }
+  if (typeof obj['status'] !== "string") {
+    return false;
+  }
+  if (typeof obj['code'] !== "string") {
+    return false;
+  }
+  return true;
 
-// }
+}
 
 
 export type SaveUserCallback = (name: string) => void;
@@ -113,10 +114,10 @@ const doLoadUserJson = (problems: UserWork, cb: LoadUserCallback): void => {
       doLoadUserError('problems must all be records');
       return;
     }
-    // if (!checkTypeUserProblem(p)) {
-    //   doLoadUserError(`problem is not valid: ${p}`);
-    //   return;
-    // }
+    if (!checkTypeUserProblem(p)) {
+      doLoadUserError(`problem is not valid: ${p}`);
+      return;
+    }
   }
 
   cb(problems);
@@ -166,23 +167,10 @@ const doLoadWorkJson = (problem: UserProblem, cb: LoadWorkCallback): void => {
     doLoadWorkError('problem is not a record');
     return;
   }
-  if (typeof problem['code'] !== 'string') {
-    doLoadWorkError('code must be a string');
+  if (!checkTypeUserProblem(problem)) {
+    doLoadWorkError('problem is not valid');
     return;
   }
-  if (problem['code'] === '') {
-    cb(problem)
-    return;
-  }
-  if (typeof problem['url'] !== 'string') {
-    doLoadWorkError('url must be a string');
-    return;
-  }
-  if (typeof problem['status'] !== 'string') {
-    doLoadWorkError('status must be a string');
-    return;
-  }
-  
   cb(problem);
 };
 

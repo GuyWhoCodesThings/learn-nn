@@ -3,7 +3,7 @@ export const isSafe = (code) => {
     const importRegex = /(import\s+\w+|from\s+\w+\s+import\s+\w+)/gm;
     
     // Check for other potentially dangerous keywords
-    const dangerousKeywords = /\b(exec|eval|open|os\.|sys\.|subprocess\.|os\.system|os\.exec|import|from)\b/gm;
+    const dangerousKeywords = /\b(exec|eval|open|with|os\.|sys\.|subprocess\.|os\.system|os\.exec|import|from)\b/gm;
 
     // Check if code contains any import statements
     if (importRegex.test(code)) {

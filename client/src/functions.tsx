@@ -1,3 +1,6 @@
+import { iSet } from "./App";
+import { UserProblem } from "./server/user";
+
 /**
  * Determines whether the given value is a record.
  * @param val the value in question
@@ -7,7 +10,7 @@ export const isRecord = (val: unknown): val is Record<string, unknown> => {
     return val !== null && typeof val === "object";
 };
 
-export const userInfoToSet = (ps?: []): object => {
+export const userInfoToSet = (ps?: [UserProblem] | []): iSet => {
     
     const comp = new Set()
     const att = new Set()

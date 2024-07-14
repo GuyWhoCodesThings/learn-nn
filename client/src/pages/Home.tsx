@@ -1,10 +1,17 @@
 import { NavLink } from "react-router-dom";
 import Profile from "./Profile";
+import { Problem } from "../server/problem";
+import { iSet } from "../App";
 
-const Home = ({ problems, infoSet }) => {
+type HomeType = {
+  problems: [Problem],
+  infoSet: iSet
+}
+
+const Home = (props: HomeType) => {
   return (
     <div className="w-full bg-none mt-10">
-      {infoSet && <Profile problems={problems} infoSet={infoSet} />}
+      { <Profile problems={props.problems} infoSet={props.infoSet} />}
       <div className="container mx-auto bg-zinc-800 p-2 rounded-md shadow-md ">
         <div className="flex flex-col">
           <div className="-mx-1.5 overflow-x-auto">
@@ -20,14 +27,14 @@ const Home = ({ problems, infoSet }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {problems.map((problem, idx) => (
+                    {props.problems.map((problem, idx) => (
                       <tr key={idx} className="odd:bg-zinc-700 even:bg-zinc-800">
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-zinc-200">
-                          {infoSet && infoSet.comp.has(problem.url) ? (
+                          {props.infoSet && props.infoSet.comp.has(problem.url) ? (
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 text-green-500">
                               <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                             </svg>
-                          ) : infoSet && infoSet.att.has(problem.url) ? (
+                          ) : props.infoSet && props.infoSet.att.has(problem.url) ? (
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 text-orange-500">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 7.5A2.25 2.25 0 0 1 7.5 5.25h9a2.25 2.25 0 0 1 2.25 2.25v9a2.25 2.25 0 0 1-2.25 2.25h-9a2.25 2.25 0 0 1-2.25-2.25v-9Z" />
                             </svg>

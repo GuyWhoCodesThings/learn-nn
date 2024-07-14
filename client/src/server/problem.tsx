@@ -1,13 +1,36 @@
+import { isRecord } from "../functions";
+
 export type Problem = {
     _id: string,
     title: string,
     url: string,
+    topic: string,
     description: string,
+    args: [],
+    returns: [],
     starterCode: string,
     difficulty: string,
+    hints: [],
+    constraints: [],
+    tests: []
 }
 
-const checkTypeProblem = (obj: Record<string, string>): boolean => {
+export type Submission = {
+    testCaseResults: Array<{
+        result: {
+            error: string,
+            message: string,
+            out: [string],
+            result: string,
+            time: number
+        }
+    }>,
+    time: number
+}
+
+
+
+const checkTypeProblem = (obj: Problem): boolean => {
     if (typeof obj['_id'] !== "string") {
         return false;
     }
@@ -17,7 +40,16 @@ const checkTypeProblem = (obj: Record<string, string>): boolean => {
     if (typeof obj['url'] !== "string") {
         return false;
     }
+    if (typeof obj['topic'] !== "string") {
+        return false;
+    }
     if (typeof obj['description'] !== "string") {
+        return false;
+    }
+    if (typeof obj['args'] !== "object") {
+        return false;
+    }
+    if (typeof obj['returns'] !== "object") {
         return false;
     }
     if (typeof obj['starterCode'] !== "string") {
@@ -26,10 +58,29 @@ const checkTypeProblem = (obj: Record<string, string>): boolean => {
     if (typeof obj['difficulty'] !== "string") {
         return false;
     }
+    if (typeof obj['hints'] !== "object") {
+        return false;
+    }
+    if (typeof obj['constraints'] !== "object") {
+        return false;
+    }
+    if (typeof obj['tests'] !== "object") {
+        return false;
+    }
     return true;
 }
 
-export type ListProblemsCallback = (problems: Array<Problem>) => void;
+const checkTypeSubmission = (s: Submission): boolean => {
+    if (typeof s['time'] !== "number") {
+        return false;
+    }
+    if (typeof s['testCaseResults'] !== "object") {
+        return false;
+    }
+    return true;
+}  
+
+export type ListProblemsCallback = (problems: [Problem]) => void;
 
 export const listProblems = (cb: ListProblemsCallback) => {
 
@@ -56,7 +107,7 @@ const doListResp = (res: Response, cb: ListProblemsCallback) => {
       }
 }
 
-const doListJson = (problems: Array<Problem>, cb: ListProblemsCallback) => {
+const doListJson = (problems: [Problem], cb: ListProblemsCallback) => {
 
     if (!Array.isArray(problems)) {
         doListError('response is not an array')
@@ -120,9 +171,9 @@ const doLoadError = (msg: string) => {
     console.error(msg)
 }
 
-export type runCallback = (out: Record<string, string>) => void;
+export type runCallback = (out: Submission) => void;
 
-export const runProblem = (code: string, tests: Array<any>, cb: runCallback) => {
+export const runProblem = (code: string, tests: [], cb: runCallback) => {
     fetch(`${import.meta.env.VITE_API_URL}/problem/python`, {
         method: "POST",
         body: JSON.stringify({
@@ -150,20 +201,15 @@ const doRunResp = (res: Response, cb: runCallback) => {
       }
 }
 
-const doRunJson = (out: any, cb: runCallback) => {
-    // if (!isRecord(out)) {
-    //     doLoadError('item not of type problem')
-    //     return;
-    // }
-    // console.log(out)
-    // if (typeof out['error'] !== "string") {
-    //     doLoadError('out is missing error')
-    //     return;
-    // }
-    // if (typeof out['stdout'] !== "string") {
-    //     doLoadError('out is missing stdout')
-    //     return;
-    // }
+const doRunJson = (out: Submission, cb: runCallback) => {
+    if (!isRecord(out)) {
+        doLoadError('item is not record')
+        return;
+    }
+    if (!checkTypeSubmission(out)) {
+        doLoadError('item not of type problem')
+        return;
+    }
     cb(out)
 }
 

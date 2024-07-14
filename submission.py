@@ -1,4 +1,4 @@
 import torch
-class Sigmoid(torch.nn.Module):
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        pass
+class MSELossLayer(torch.nn.Module):
+    def forward(self, y_pred: torch.Tensor, y_true: torch.Tensor) -> torch.Tensor:
+        return torch.mean((y_pred - y_true) ** 2)

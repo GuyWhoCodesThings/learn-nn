@@ -1,36 +1,32 @@
 import { useEffect, useState } from "react";
 import Matrix from "./Matrix";
+import { Problem, Submission } from "../server/problem";
 
 interface OutputProps {
-    problem: object;
+    problem: Problem;
     accepted: number;
     time: number;
-    results: { testCaseResults: { result: any }[] } | undefined;
+    results: Submission | undefined
 }
 
 
-
-
-const Output = ({ problem, results, accepted, time }: OutputProps) => {
+const Output = (props: OutputProps) => {
     const [tab, setTab] = useState(0)
     const [activeIdx, setActiveIdx] = useState(0);
-    const tests = problem.tests
-
-    
-    
+    const tests: [] | undefined = props.problem ? props.problem.tests : undefined
 
     useEffect(() => {
 
-        if (results && tests.length > 0) {
+        if (props.results && tests && tests.length > 0) {
             
-            if (results.testCaseResults[activeIdx].result.error !== '') {
+            if (props.results.testCaseResults[activeIdx].result.error !== '') {
                 setTab(2)
             } else {
                 setTab(0)
             }
         }   
        
-    }, [results, accepted, time])
+    }, [props.results, props.accepted, props.time])
     
 
     return (
@@ -75,9 +71,9 @@ const Output = ({ problem, results, accepted, time }: OutputProps) => {
                                         <span
                                         className=
                                         {
-                                            results === undefined
+                                            props.results === undefined
                                             ? "text-left " 
-                                            : results.testCaseResults[idx].result.message.slice(0,6) === "passed"
+                                            : props.results.testCaseResults[idx].result.message.slice(0,6) === "passed"
                                             ? " text-green-500 "
                                             : " text-red-500 "
                                         }
@@ -88,11 +84,11 @@ const Output = ({ problem, results, accepted, time }: OutputProps) => {
                                 </li>
                             ))}
                         </ul>
-                        {(accepted === 1 && time > 0) &&
+                        {(props.accepted === 1 && props.time > 0) &&
                         <div
                         className="pr-6">
                             <p className="text-green-500 font-bold text-lg ">Accepted</p>
-                            <p className="text-sm font-light text-zinc-400">{time} ms</p>
+                            <p className="text-sm font-light text-zinc-400">{props.time} ms</p>
                         </div>
                         }  
                     </div>
@@ -126,10 +122,11 @@ const Output = ({ problem, results, accepted, time }: OutputProps) => {
                                         </div>
                                     </div>
                                    :
+                                   tests[activeIdx].length < 6 ?
                                     <div>   
                                         <h3 className="mb-1">
-                                            (in_dim, out_dim) = 
-                                        </h3>
+                                            (in_dim, out_dim) =  ({tests[activeIdx][2]}, {tests[activeIdx][3]})
+                                        </h3> 
                                         <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4 flex gap-2">
                                             ({tests[activeIdx][2]}, {tests[activeIdx][3]})
                                         </div>
@@ -141,10 +138,37 @@ const Output = ({ problem, results, accepted, time }: OutputProps) => {
                                             <Matrix matrix={tests[activeIdx][4]} />
                                         </div>
                                     </div>
+                                    :
+                                    tests[activeIdx].length === 6 ?
+                                    <div>   
+                                        <h3 className="mb-1">
+                                            (model_dim, dk, dv) =  ({tests[activeIdx][2]}, {tests[activeIdx][3]}, {tests[activeIdx][4]})
+                                        </h3>    
+                                        <h3 className="mb-1">
+                                           input =
+                                        </h3>
+                                        <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4 flex gap-2">
+                                            <Matrix matrix={tests[activeIdx][5]} />
+                                        </div>
+                                    </div>
+                                    :
+                                    <div>   
+                                        <h3 className="mb-1">
+                                            (in_dim, out_dim, hid_dim) =  ({tests[activeIdx][3]}, {tests[activeIdx][4]}, {tests[activeIdx][5]})
+                                        </h3>    
+                                        <h3 className="mb-1">
+                                           input =
+                                        </h3>
+                                        <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4 flex gap-2">
+                                            <Matrix matrix={tests[activeIdx][6]} />
+                                        </div>
+                                    </div>
                                     
                                 }
                                 </div>
+                                {tests[activeIdx].length < 7 ?
                                 <div className="flex-col items-center m-2 text-left">
+                                
                                     <h3 className="mb-1">
                                         target =  
                                     </h3>
@@ -152,10 +176,24 @@ const Output = ({ problem, results, accepted, time }: OutputProps) => {
                                         <Matrix matrix={tests[activeIdx][1]} />
                 
                                     </div>
+                                    
                                 </div>
+                                :
+                                <div className="flex-col items-center m-2 text-left">
+                                
+                                    <h3 className="mb-1">
+                                        target = 
+                                    </h3>
+                                    <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4">
+                                       <Matrix matrix={tests[activeIdx][1]} />
+                                        <Matrix matrix={tests[activeIdx][2]} />
+                
+                                    </div>                    
+                                </div>
+                                }
                                 
 
-                                { results &&
+                                { props.results &&
                                 
                                 <div className="flex-col items-center m-2 text-left">
                                     <h3 className="mb-1">
@@ -164,12 +202,12 @@ const Output = ({ problem, results, accepted, time }: OutputProps) => {
                                     <div 
                                     className=
                                     {
-                                       results.testCaseResults[activeIdx].result.message.slice(0,6) === "passed"
+                                       props.results.testCaseResults[activeIdx].result.message.slice(0,6) === "passed"
                                         ? "bg-zinc-700 text-green-500 text-left p-1 rounded-md w-full pl-4  min-h-8"
                                         : "bg-zinc-700 text-red-500 text-left p-1 rounded-md w-full pl-4  min-h-8"
                                     }
                                     >
-                                        {results.testCaseResults[activeIdx].result.result}
+                                        {props.results.testCaseResults[activeIdx].result.result}
                                     </div>
                                     <h3 className="mb-1">
                                        status = 
@@ -178,16 +216,15 @@ const Output = ({ problem, results, accepted, time }: OutputProps) => {
                                     className=
                                     {
                                        
-                                        results.testCaseResults[activeIdx].result.message.slice(0,6) === "passed"
+                                        props.results.testCaseResults[activeIdx].result.message.slice(0,6) === "passed"
                                         ? "bg-zinc-700 text-green-500 text-left p-1 rounded-md w-full pl-4  min-h-8"
                                         : "bg-zinc-700 text-red-500 text-left p-1 rounded-md w-full pl-4  min-h-8"
                                     }
                                     >
-                                        {results.testCaseResults[activeIdx].result.message}
+                                        {props.results.testCaseResults[activeIdx].result.message}
                                     </div>
                                 
-                                    
-                                    
+                        
                                 </div>
                                 }
                                 
@@ -203,8 +240,8 @@ const Output = ({ problem, results, accepted, time }: OutputProps) => {
                     StdOut:
                 </h3>
                 <ul className="flex-col text-left p-2 bg-zinc-700 m-4 rounded-md min-h-10">
-                {(results && results.testCaseResults[activeIdx].result.out[0]) &&
-                results.testCaseResults[activeIdx].result.out
+                {(props.results && props.results.testCaseResults[activeIdx].result.out[0]) &&
+                props.results.testCaseResults[activeIdx].result.out
                 }
             </ul>
                 
@@ -217,8 +254,8 @@ const Output = ({ problem, results, accepted, time }: OutputProps) => {
                     StdError:
                 </h3>
                 <ul className="flex-col text-left p-2 bg-zinc-700 m-4 rounded-md min-h-10 text-red-500">
-                {results !== undefined &&
-                results.testCaseResults[activeIdx].result.error
+                {props.results !== undefined &&
+                props.results.testCaseResults[activeIdx].result.error
                 }
             </ul>
                 

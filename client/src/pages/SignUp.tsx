@@ -13,7 +13,7 @@ const SignUp = (props: {initError?: string}) => {
     const [error, setError] = useState(props.initError === undefined ? '' : props.initError);
        
  
-    const onSignUpClick = async (e: Event) => {
+    const onSignUpClick = async (e:  React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
       setError('')
      

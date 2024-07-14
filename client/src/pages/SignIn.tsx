@@ -9,7 +9,7 @@ const SignIn = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
        
-    const onSignInClick = (e: Event) => {
+    const onSignInClick = (e:  React.MouseEvent<HTMLButtonElement>) => {
       setError('')
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
