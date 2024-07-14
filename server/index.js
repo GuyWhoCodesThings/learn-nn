@@ -12,7 +12,9 @@ const app = express();
 app.use(cors())
 app.use(bodyParser.json());
 
-
+app.get('/', (_req, res) => {
+    res.send('hello world')
+})
 app.use('/api/user', userRouter)
 app.use('/api/dummy', dummyRouter)
 app.use('/api/problem', problemRouter)
