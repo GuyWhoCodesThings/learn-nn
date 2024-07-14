@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase.js';
 import { NavLink, useNavigate } from 'react-router-dom'
@@ -9,13 +9,13 @@ const SignIn = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
        
-    const onSignInClick = (e) => {
+    const onSignInClick = (e: Event) => {
+      setError('')
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+        .then(() => {
             // Signed in
-            setError('')
-            const user = userCredential.user;
+            
             navigate("/")
 
         })

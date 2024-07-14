@@ -5,19 +5,19 @@ export type UserWork = Array<Record<string, string>>
 
 export type UserProblem = {url: string, status: string, code: string}
 
-const checkTypeUserProblem = (obj: Record<string, string>) => {
-  if (typeof obj['title'] !== "string") {
-    return false;
-  }
-  if (typeof obj['status'] !== "string") {
-    return false;
-  }
-  if (typeof obj['code'] !== "string") {
-    return false;
-  }
-  return true;
+// const checkTypeUserProblem = (obj: Record<string, string>) => {
+//   if (typeof obj['title'] !== "string") {
+//     return false;
+//   }
+//   if (typeof obj['status'] !== "string") {
+//     return false;
+//   }
+//   if (typeof obj['code'] !== "string") {
+//     return false;
+//   }
+//   return true;
 
-}
+// }
 
 
 export type SaveUserCallback = (name: string) => void;
@@ -237,7 +237,7 @@ export const getUserInfo = (user: User, cb: GetUserInfoCallback): void => {
   
   user.getIdToken(true)
   .then((idToken) => {
-    fetch(`${import.meta.env.VITE_API_URL}/user/code?url=${url}` , {
+    fetch(`${import.meta.env.VITE_API_URL}/user/code` , {
       method: "GET",
       headers: {
         "Content-type": "application/json",

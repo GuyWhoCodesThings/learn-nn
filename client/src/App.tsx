@@ -9,7 +9,7 @@ import { auth } from './firebase.js';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import UnAuthNav from './components/UnAuthNav.js';
 import AuthNav from './components/AuthNav.js';
-import { loadUser, UserWork } from './server/user.js';
+import { loadUser } from './server/user.js';
 import { User } from 'firebase/auth';
 import { listProblems } from './server/problem.js';
 import Alert from './components/Alert.js';

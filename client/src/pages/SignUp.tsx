@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import {  createUserWithEmailAndPassword  } from 'firebase/auth';
 import { auth } from '../firebase.js';
 import { createUser } from '../server/user.js';
+import { useState } from 'react';
 
  
 const SignUp = (props: {initError?: string}) => {
@@ -13,8 +13,9 @@ const SignUp = (props: {initError?: string}) => {
     const [error, setError] = useState(props.initError === undefined ? '' : props.initError);
        
  
-    const onSignUpClick = async (e) => {
+    const onSignUpClick = async (e: Event) => {
       e.preventDefault()
+      setError('')
      
       await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -30,7 +31,7 @@ const SignUp = (props: {initError?: string}) => {
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorCode, errorMessage);
+            setError(errorCode + "" + errorMessage)
             // ..
         });
  
@@ -95,7 +96,7 @@ const SignUp = (props: {initError?: string}) => {
               <div>
                 <button
                   type="submit"
-                  onClick={onSignUpClick}
+                  onClick={(e) => onSignUpClick(e)}
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Create Account

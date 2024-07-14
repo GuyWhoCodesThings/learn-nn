@@ -1,5 +1,3 @@
-import { isRecord } from "../functions";
-
 export type Problem = {
     _id: string,
     title: string,
