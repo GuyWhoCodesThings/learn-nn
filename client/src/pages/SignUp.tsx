@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import {  createUserWithEmailAndPassword  } from 'firebase/auth';
-import { auth } from '../firebase.js';
+import { auth } from '../firebase.tsx';
 import { createUser } from '../server/user.js';
 import { useState } from 'react';
 

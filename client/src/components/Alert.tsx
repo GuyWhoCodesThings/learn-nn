@@ -9,7 +9,12 @@ const stringToTheme = (theme: string): string => {
     return "bg-red-200 border border-red-500 text-red-700"
 }
 
-const Alert = ({ message, theme }) => {
+type AlertProps = {
+    message: string,
+    theme: string
+}
+
+const Alert = (props: AlertProps): JSX.Element => {
 
     const [show, setShow] = useState(true)
    
@@ -22,11 +27,11 @@ const Alert = ({ message, theme }) => {
             setShow(true)
         }, 3000)
 
-    }, [message])
+    }, [props.message])
 
     return (
-        <div className={`absolute bottom-0 mb-5 right-20 left-20 px-4 py-1 rounded ml-20 mr-20 ${show ? "transition-opacity duration-3000 ease-in-out opacity-0" : ""} ${stringToTheme(theme)}`} role="alert">
-            <span className="block sm:inline">{message}</span>
+        <div className={`absolute bottom-0 mb-5 right-20 left-20 px-4 py-1 rounded ml-20 mr-20 ${show ? "transition-opacity duration-3000 ease-in-out opacity-0" : ""} ${stringToTheme(props.theme)}`} role="alert">
+            <span className="block sm:inline">{props.message}</span>
         </div>
     )
 }

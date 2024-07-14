@@ -1,14 +1,16 @@
 import { signOut } from "firebase/auth";
-import { NavLink, useNavigate } from "react-router-dom";
-import { auth } from '../firebase.js';
+import { NavLink } from "react-router-dom";
+import { auth } from '../firebase.tsx';
 
 const AuthNav = () => {
 
-    const handleSignOut = () => {               
+    const handleSignOut = () => {   
+          
         signOut(auth).then(() => {
+                 
             console.log("Signed out successfully")
         }).catch((error) => {
-            // An error happened.
+            console.log(error)  
         });
     }
     

@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { auth } from '../firebase.js';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { auth } from '../firebase.tsx';
+import { NavLink } from 'react-router-dom';
 import { sendPasswordResetEmail } from "firebase/auth";
 
 export default function Reset() {

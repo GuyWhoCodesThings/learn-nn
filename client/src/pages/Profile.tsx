@@ -1,7 +1,3 @@
-import { User } from "firebase/auth";
-import { NavLink } from "react-router-dom";
-
-
 const Profile = (props: {problems: Array<any>, infoSet: object}) => {
 
   

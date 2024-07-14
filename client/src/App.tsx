@@ -5,7 +5,7 @@ import ProblemPage from './pages/ProblemPage.js';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import { useEffect, useState } from 'react';
-import { auth } from './firebase.js';
+import { auth } from './firebase.tsx';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import UnAuthNav from './components/UnAuthNav.js';
 import AuthNav from './components/AuthNav.js';
@@ -21,7 +21,7 @@ import Reset from './pages/Reset.js';
 function App() {
 
   const [user] = useAuthState(auth)
-  const [problems, setProblems] = useState<Array | null>(null)
+  const [problems, setProblems] = useState<Array<string> | null>(null)
   const [loading, setLoading] = useState(true)
   const [alert, setAlert] = useState<{ message: string, theme: string } | null>(null)
   const [infoSet, setInfoSet] = useState<object | null>(null)
@@ -35,8 +35,10 @@ function App() {
   const doUserInfoChange = (u: User) => {
    
     loadUser(u, (i) => { 
-      const s = userInfoToSet(i)
-      setInfoSet(s)
+      if (i) {
+        const s = userInfoToSet(i)
+        setInfoSet(s)
+      }
       
     }) 
   }
@@ -58,10 +60,13 @@ function App() {
         if (u) {
            
           loadUser(u, (i) => { 
-            setInfoSet(userInfoToSet(i))
-            doAlert(`${u.email} logged in!`, "success")
-            console.log(`${u.email} logged in!`)
+            if (i) {
+              setInfoSet(userInfoToSet(i))
+              doAlert(`${u.email} logged in!`, "success")
+              console.log(`${u.email} logged in!`)
+            }
             doLoadChange(false)
+
           })
         } else {
           setInfoSet(null)
