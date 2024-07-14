@@ -2,7 +2,6 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from './pages/Home';
 import ProblemPage from './pages/ProblemPage.js';
-import Profile from './pages/Profile';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import { useEffect, useState } from 'react';
@@ -10,13 +9,12 @@ import { auth } from './firebase.js';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import UnAuthNav from './components/UnAuthNav.js';
 import AuthNav from './components/AuthNav.js';
-import SignOut from './pages/SignOut.js';
 import { loadUser, UserWork } from './server/user.js';
 import { User } from 'firebase/auth';
 import { listProblems } from './server/problem.js';
-import Submission from './pages/Submission.js';
 import Alert from './components/Alert.js';
 import { userInfoToSet } from './functions.js';
+import Reset from './pages/Reset.js';
 
 
 
@@ -94,12 +92,11 @@ function App() {
         <Route path="/problem/:id" element={<ProblemPage alert={(m,t) => doAlert(m,t)} changeLoading={(b) => doLoadChange(b)}/>} />
         <Route path="/sign-in" element={<SignIn  />} />
         <Route path="/sign-up" element={< SignUp />} />
+        <Route path="sign-in/reset" element={< Reset />} />
       </Routes> : 
       <Routes>
         <Route path="/" element={<Home infoSet={infoSet} problems={problems} />} />
         <Route path="/problem/:id" element={<ProblemPage updateUserInfo={() => doUserInfoChange(user)} alert={(m,t) => doAlert(m,t)} currentUser={user} changeLoading={(b) => doLoadChange(b)}/>} />
-        <Route path="/profile" element={<Profile problems={problems} infoSet={infoSet}  currentUser={user}/>} />
-        <Route path="/sign-out" element={<SignOut />} />
       </Routes>
       }
       {alert &&

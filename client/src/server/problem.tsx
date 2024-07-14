@@ -35,7 +35,7 @@ export type ListProblemsCallback = (problems: Array<Problem>) => void;
 
 export const listProblems = (cb: ListProblemsCallback) => {
 
-    fetch('http://localhost:3000/api/problem/list', {
+    fetch(`${import.meta.env.VITE_API_URL}/problem/list`, {
         method: "GET",
         headers: {
             "Content-type": "application/json"
@@ -84,7 +84,7 @@ export type LoadProblemCallback = (problem: Problem) => void;
 export const loadProblem = (endpoint: string, cb: LoadProblemCallback) => {
 
 
-    fetch(`http://localhost:3000/api/problem/load/${endpoint}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/problem/load/${endpoint}`, {
         method: "GET",
         headers: {
             "Content-type": "application/json"
@@ -125,7 +125,7 @@ const doLoadError = (msg: string) => {
 export type runCallback = (out: Record<string, string>) => void;
 
 export const runProblem = (code: string, tests: Array<any>, cb: runCallback) => {
-    fetch('http://localhost:3000/api/problem/python', {
+    fetch(`${import.meta.env.VITE_API_URL}/problem/python`, {
         method: "POST",
         body: JSON.stringify({
             code: code,

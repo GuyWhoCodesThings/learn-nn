@@ -110,6 +110,7 @@ const Output = ({ problem, results, accepted, time }: OutputProps) => {
                                         </div>
                                     </div>
                                     :
+                                    tests[activeIdx].length < 5 ?
                                     <div>
                                         <h3 className="mb-1">
                                             y_pred = 
@@ -124,7 +125,24 @@ const Output = ({ problem, results, accepted, time }: OutputProps) => {
                                             <Matrix matrix={tests[activeIdx][3]} />
                                         </div>
                                     </div>
-                                    }
+                                   :
+                                    <div>   
+                                        <h3 className="mb-1">
+                                            (in_dim, out_dim) = 
+                                        </h3>
+                                        <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4 flex gap-2">
+                                            ({tests[activeIdx][2]}, {tests[activeIdx][3]})
+                                        </div>
+                                       
+                                        <h3 className="mb-1">
+                                           input =
+                                        </h3>
+                                        <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4 flex gap-2">
+                                            <Matrix matrix={tests[activeIdx][4]} />
+                                        </div>
+                                    </div>
+                                    
+                                }
                                 </div>
                                 <div className="flex-col items-center m-2 text-left">
                                     <h3 className="mb-1">
@@ -132,6 +150,7 @@ const Output = ({ problem, results, accepted, time }: OutputProps) => {
                                     </h3>
                                     <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4">
                                         <Matrix matrix={tests[activeIdx][1]} />
+                
                                     </div>
                                 </div>
                                 

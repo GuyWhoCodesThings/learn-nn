@@ -28,7 +28,7 @@ export const createUser = (user: User, cb: SaveUserCallback) => {
     user.getIdToken(true)
     .then((idToken) => {
       
-      fetch('http://localhost:3000/api/user/sign-up', {
+      fetch(`${import.meta.env.VITE_API_URL}/user/sign-up`, {
         method: "POST",
         body: JSON.stringify({}),
         headers: {
@@ -74,7 +74,7 @@ export const loadUser = (user: User, cb: LoadUserCallback) => {
   
   user.getIdToken(true)
     .then((idToken) => {
-      fetch(`http://localhost:3000/api/user/load`, {
+      fetch(`${import.meta.env.VITE_API_URL}/user/load`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -134,7 +134,7 @@ export const loadWork = (user: User, url: string, cb: LoadWorkCallback): void =>
   console.log('trying to load user code...')
   user.getIdToken(true)
   .then((idToken) => {
-    fetch(`http://localhost:3000/api/user/code?url=${url}` , {
+    fetch(`${import.meta.env.VITE_API_URL}/user/code?url=${url}` , {
       method: "GET",
       headers: {
         "Content-type": "application/json",
@@ -198,7 +198,7 @@ export const saveWork = (user: User, code: string, url: string, completed: boole
 
     user.getIdToken(true)
     .then((idToken) => {
-      fetch('http://localhost:3000/api/user/save', {
+      fetch(`${import.meta.env.VITE_API_URL}/user/save`, {
         method: "POST",
         body: JSON.stringify({
           url: url,
@@ -237,7 +237,7 @@ export const getUserInfo = (user: User, cb: GetUserInfoCallback): void => {
   
   user.getIdToken(true)
   .then((idToken) => {
-    fetch(`http://localhost:3000/api/user/code?url=${url}` , {
+    fetch(`${import.meta.env.VITE_API_URL}/user/code?url=${url}` , {
       method: "GET",
       headers: {
         "Content-type": "application/json",

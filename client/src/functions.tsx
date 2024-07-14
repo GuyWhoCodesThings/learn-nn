@@ -21,3 +21,4 @@ export const userInfoToSet = (ps?: []): object => {
     }
     return {comp: comp, att: att}
   }
+

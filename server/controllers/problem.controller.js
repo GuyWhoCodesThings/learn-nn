@@ -1,6 +1,7 @@
 import Problem from "../models/problem.model.js";
 import * as fs from 'fs';
 import {PythonShell} from 'python-shell';
+import { isSafe } from "../utils/checkCode.js";
 
 export const createProblem = async (req, res) => {
 
@@ -94,9 +95,25 @@ export const listProblems = async (_req, res) => {
 export const python = (req, res) => {
 
     const ms = 10000
-
-    const code = req.body.code.replace(/\u00A0/g, " ");
     const tests = req.body.tests;
+    const userCode = req.body.code.replace(/\u00A0/g, " ")
+    const safe = isSafe(userCode)
+    if (!safe) {
+        const testCaseResults = []
+        for(let i = 0; i < tests.length; i++){
+            testCaseResults.push({result: {
+                out: [],    // To capture stdout messages
+                result: "", // To store the final result
+                message: "", // To store the message (e.g., 'passed' or 'failed')
+                error: "unsafe code",   // To store any errors encountered
+                time: 0
+            }})
+        }
+        res.json({ testCaseResults, time: 0});
+        return;
+    }
+    const code = "import torch\n" + userCode;
+    
 
     fs.writeFileSync("submission.py", code);
 

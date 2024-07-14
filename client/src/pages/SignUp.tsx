@@ -39,7 +39,7 @@ const SignUp = (props: {initError?: string}) => {
  
   return (
       <>
-        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 w-screen">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
               className="mx-auto h-10 w-auto"
@@ -76,11 +76,7 @@ const SignUp = (props: {initError?: string}) => {
                   <label htmlFor="password" className="block text-sm font-medium leading-6 ">
                     Password
                   </label>
-                  <div className="text-sm">
-                    <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                      Forgot password?
-                    </a>
-                  </div>
+              
                 </div>
                 <div className="mt-2">
                   <input

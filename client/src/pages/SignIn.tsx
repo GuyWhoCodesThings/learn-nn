@@ -30,7 +30,7 @@ const SignIn = () => {
  
     
     return (
-      <div className='relative'>
+      <div className='relative w-screen'>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
@@ -69,9 +69,9 @@ const SignIn = () => {
                     Password
                   </label>
                   <div className="text-sm">
-                    <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                    <NavLink to="./reset" className="font-semibold text-indigo-600 hover:text-indigo-500">
                       Forgot password?
-                    </a>
+                    </NavLink>
                   </div>
                 </div>
                 <div className="mt-2">

@@ -1,1 +1,33 @@
 fix env file for server, firebase auth not working
+
+
+Add:
+
+LSTM
+Attention
+multi head attention
+Momentum SGD
+SGD
+
+(maybes:
+Linear Regression (kernel)
+)
+
+Finish:
+RNN -> have forward be for whole sequence
+
+resources:
+https://github.com/dsgiitr/d2l-pytorch/blob/master/Ch12_Optimization_Algorithms/Momentum.ipynb
+
+
+*tests for network layer
+
+
+A = x @ Q @ KT @ xT
+   (seq, dim) (dim, dv ) (dv, dim) @ (dim, seq)
+
+   (seq, seq)
+
+O = A @ V
+
+   (seq, seq) @ (seq, dim)

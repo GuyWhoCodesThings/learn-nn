@@ -6,8 +6,8 @@ import { NavLink } from "react-router-dom";
 const UnAuthNav = () => {
     
     return (
-        <div className="flex justify-center bg-zinc-500 w-screen h-10">
-            <ul className="flex justify-between gap-10 w-full pr-5 pl-5 mt-2">
+        <div className="fixed top-0 left-0 z-50 w-screen p-3 bg-zinc-500">
+            <ul className="flex justify-between items-center gap-10 w-full pr-5 pl-5">
                 <li>
                     <NavLink to="/" className="text-white">
                         Problems
