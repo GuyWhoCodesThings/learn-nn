@@ -195,6 +195,7 @@ export const python = (req, res) => {
     });
 
     Promise.allSettled(promises)
+        .then(() => console.log(testCaseResults))
         .then(() => Math.floor(performance.now() - start))
         .then((time) => {
             res.json({ testCaseResults, time: time });
