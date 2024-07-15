@@ -15,7 +15,7 @@ const AuthNav = () => {
     }
     
     return (
-        <div className="fixed top-0 z-50 left-0 w-screen p-3 bg-zinc-500">
+        <div className="fixed top-0 z-50 left-0 w-screen p-3 bg-zinc-800">
             <ul className="flex justify-between items-center gap-10 w-full pr-5 pl-5">
                 <li className="">
                     <NavLink to="/" className="text-white">
