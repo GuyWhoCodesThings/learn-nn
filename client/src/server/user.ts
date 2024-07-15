@@ -1,21 +1,25 @@
 import { User } from "firebase/auth";
-import { isRecord } from "../functions";
+import { isRecord } from "../functions.ts";
 
 
 
 export type UserProblem = {url: string, status: string, code: string}
 export type UserWork = [UserProblem]
 
-const checkTypeUserProblem = (obj: Record<string, string>) => {
+const checkTypeUserProblem = (obj: UserProblem) => {
+  if (typeof obj['code'] !== "string") {
+    return false;
+  }
+  if (obj['code'] === '') {
+    return true
+  }
   if (typeof obj['url'] !== "string") {
     return false;
   }
   if (typeof obj['status'] !== "string") {
     return false;
   }
-  if (typeof obj['code'] !== "string") {
-    return false;
-  }
+  
   return true;
 
 }

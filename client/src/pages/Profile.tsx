@@ -1,15 +1,16 @@
 import { iSet } from "../App";
-import { Problem } from "../server/problem";
+import { Problem } from "../server/problem.ts";
 
 type ProfileType = {
   problems: Array<Problem>,
-  infoSet: iSet
+  infoSet?: iSet
 }
 
 
 const Profile = (props: ProfileType) => {
 
-  const completed =  props.infoSet ? props.problems.filter((p) => props.infoSet.comp.has(p.url)) : []
+  
+  const completed =  props.infoSet ? props.problems.filter((p) => props.infoSet?.comp.has(p.url)) : []
   const stats = {easy: 0, medium: 0, hard: 0, active: 0, loss: 0, layer: 0}
   
   for(const p of completed){

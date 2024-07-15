@@ -16,7 +16,7 @@ const CodeEditor = (props: {userCode: string, starterCode: string, run: (x: stri
     }
   }
 
-  const handleKeySave = (event): void => {
+  const handleKeySave = (event: React.KeyboardEvent): void => {
     if ((event.ctrlKey || event.metaKey) && event.key === "s") {
       event.preventDefault(); 
       console.log("ctrl + s pressed")

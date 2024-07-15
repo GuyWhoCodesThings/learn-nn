@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import {  createUserWithEmailAndPassword  } from 'firebase/auth';
-import { auth } from '../firebase.tsx';
-import { createUser } from '../server/user.js';
+import { auth } from '../firebase.ts';
+import { createUser } from '../server/user.ts';
 import { useState } from 'react';
 
  
@@ -39,8 +39,8 @@ const SignUp = (props: {initError?: string}) => {
     }
  
   return (
-      <>
-        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 w-screen">
+      <div className='w-full'>
+        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
               className="mx-auto h-10 w-auto"
@@ -115,7 +115,7 @@ const SignUp = (props: {initError?: string}) => {
             </p>
           </div>
         </div>
-      </>
+      </div>
     )
 }
  

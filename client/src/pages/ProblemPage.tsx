@@ -4,10 +4,10 @@ import Output from '../components/Output';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import CodeEditor from '../components/CodeEditor';
-import { loadProblem, Problem, runProblem, Submission } from "../server/problem";
+import { loadProblem, Problem, runProblem, Submission } from "../server/problem.ts";
 import { User } from "firebase/auth";
 import LoadingOverlay from 'react-loading-overlay-ts';
-import { loadWork, saveWork, UserProblem } from "../server/user";
+import { loadWork, saveWork, UserProblem } from "../server/user.ts";
 
 type PageType = {
     currentUser?: User,

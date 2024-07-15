@@ -1,20 +1,21 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from './pages/Home';
-import ProblemPage from './pages/ProblemPage.js';
+import ProblemPage from './pages/ProblemPage.tsx';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import { useEffect, useState } from 'react';
-import { auth } from './firebase.tsx';
+import { auth } from './firebase.ts';
 import {useAuthState} from 'react-firebase-hooks/auth';
-import UnAuthNav from './components/UnAuthNav.js';
-import AuthNav from './components/AuthNav.js';
-import { loadUser, UserProblem } from './server/user.js';
+import UnAuthNav from './components/UnAuthNav.tsx';
+import AuthNav from './components/AuthNav.tsx';
+import { loadUser, UserProblem } from './server/user.ts';
 import { User } from 'firebase/auth';
-import { listProblems, Problem } from './server/problem.js';
-import Alert from './components/Alert.js';
-import { userInfoToSet } from './functions.js';
-import Reset from './pages/Reset.js';
+import { listProblems, Problem } from './server/problem.ts';
+import Alert from './components/Alert.tsx';
+import { userInfoToSet } from './functions.ts';
+import Reset from './pages/Reset.tsx';
+import About from './pages/About.tsx';
 
 export type iSet = 
 {
@@ -29,7 +30,7 @@ function App() {
   const [problems, setProblems] = useState<[Problem] | null>(null)
   const [loading, setLoading] = useState(true)
   const [alert, setAlert] = useState<{ message: string, theme: string } | null>(null)
-  const [infoSet, setInfoSet] = useState<iSet | null>(null)
+  const [infoSet, setInfoSet] = useState<iSet | undefined>(undefined)
 
 
   const doLoadChange = (b: boolean): void => {
@@ -74,7 +75,7 @@ function App() {
 
           })
         } else {
-          setInfoSet(null)
+          setInfoSet(undefined)
           doLoadChange(false)
         } 
         doLoadChange(false)
@@ -88,7 +89,7 @@ function App() {
 
   }, [user])
 
-  if (loading) {
+  if (loading || problems === null) {
     return <div>Loading...</div>
   }
 
@@ -98,13 +99,15 @@ function App() {
     {user === null || user === undefined ? <UnAuthNav /> : <AuthNav />}
     {user === null || user === undefined ?
       <Routes>
-        <Route path="/" element={<Home infoSet={infoSet} problems={problems}/>} />
+        <Route path="/about" element={<About />} />
+        <Route path="/" element={<Home problems={problems}/>} />
         <Route path="/problem/:id" element={<ProblemPage alert={(m,t) => doAlert(m,t)} changeLoading={(b) => doLoadChange(b)}/>} />
         <Route path="/sign-in" element={<SignIn  />} />
         <Route path="/sign-up" element={< SignUp />} />
         <Route path="sign-in/reset" element={< Reset />} />
       </Routes> : 
       <Routes>
+        <Route path="/about" element={<About />} />
         <Route path="/" element={<Home infoSet={infoSet} problems={problems} />} />
         <Route path="/problem/:id" element={<ProblemPage updateUserInfo={() => doUserInfoChange(user)} alert={(m,t) => doAlert(m,t)} currentUser={user} changeLoading={(b) => doLoadChange(b)}/>} />
       </Routes>

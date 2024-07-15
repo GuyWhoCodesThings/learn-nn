@@ -1,4 +1,4 @@
-import { isRecord } from "../functions";
+import { isRecord } from "../functions.ts";
 
 export type Problem = {
     _id: string,
@@ -10,7 +10,7 @@ export type Problem = {
     returns: [],
     starterCode: string,
     difficulty: string,
-    hints: [],
+    hints: [string],
     constraints: [],
     tests: []
 }

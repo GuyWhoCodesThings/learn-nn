@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Matrix from "./Matrix";
-import { Problem, Submission } from "../server/problem";
+import { Problem, Submission } from "../server/problem.ts";
 
 interface OutputProps {
     problem: Problem;

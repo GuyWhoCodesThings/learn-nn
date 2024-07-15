@@ -1,5 +1,5 @@
 import { iSet } from "./App";
-import { UserProblem } from "./server/user";
+import { UserProblem } from "./server/user.ts";
 
 /**
  * Determines whether the given value is a record.

@@ -1,6 +1,6 @@
 import { signOut } from "firebase/auth";
 import { NavLink } from "react-router-dom";
-import { auth } from '../firebase.tsx';
+import { auth } from '../firebase.ts';
 
 const AuthNav = () => {
 
@@ -24,6 +24,9 @@ const AuthNav = () => {
                 </li>
                 <li>
                     <div className="flex gap-6">
+                        <NavLink to="/about" className="flex items-center text-white gap-1">
+                            <p>About</p>
+                        </NavLink>
                         <NavLink to="/" onClick={handleSignOut} className="flex items-center text-white gap-1">
                             <p>Logout</p>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">

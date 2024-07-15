@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Problem } from "../server/problem"
+import { Problem } from "../server/problem.ts"
 
 type DescProps = {
     problem: Problem,
