@@ -15,7 +15,6 @@ const CodeEditor = (props: EditorType): JSX.Element => {
   
 
   const [code, setCode] = useState<string>(props.starterCode);
-  console.log(code)
   const didMountRef = useRef(false)
   
   const handleCodeChange = (value?: string): void => {

@@ -84,13 +84,13 @@ const Output = (props: OutputProps) => {
                                 </li>
                             ))}
                         </ul>
-                        {(props.accepted === 1 && props.time > 0) &&
+                        
                         <div
                         className="pr-6">
-                            <p className="text-green-500 font-bold text-lg ">Accepted</p>
-                            <p className="text-sm font-light text-zinc-400">{props.time} ms</p>
+                            {props.accepted === 1 && <p className="text-green-500 font-bold text-lg ">Accepted</p>}
+                            {props.time > 0 && <p className="text-sm font-light text-zinc-400">{props.time} ms</p>}
                         </div>
-                        }  
+                        
                     </div>
                     <div className="ml-2 w-full flex-col">
                         {props.problem && props.problem.tests[activeIdx] && (

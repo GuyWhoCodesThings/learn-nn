@@ -30,7 +30,9 @@ const ProblemPage = (props: PageType): JSX.Element => {
 
 
   const doUpdateWork = (userProblem: UserProblem) => {
+    console.log(userProblem)
     if (userProblem.code !== '') {
+      setTime(userProblem.time)
       setUserCode(userProblem.code);
       if (userProblem.status === 'completed') {
         setAccepted(1);
@@ -54,7 +56,6 @@ const ProblemPage = (props: PageType): JSX.Element => {
         } else {
           const current = localStorage.getItem(id);
           if (current) {
-            
             setProblem({ ...p, starterCode: JSON.parse(current) });
           }
         }
@@ -71,14 +72,13 @@ const ProblemPage = (props: PageType): JSX.Element => {
         }
         
     }
-  }, [id, props.currentUser, accepted]);
+  }, [id, props.currentUser]);
 
   const run = (code: string): void => {
 
     if (props.currentUser && problem) {
       const tests = problem.tests;
       setActive(true);
-      console.log(code)
       runProblem(code, tests, (o: Submission) => {
         setActive(false);
         console.log(o);
@@ -91,14 +91,16 @@ const ProblemPage = (props: PageType): JSX.Element => {
           }
         }
         setTime(o.time);
-        save(code, (correct === tests.length), o.time);
-
+        
         if (correct === tests.length) {
-          props.alert(`${problem.title} completed!`, "success");
+            setAccepted(1);
+            save(code, true, o.time);
+            props.alert(`${problem.title} completed!`, "success");
           
-          setAccepted(1);
         } else {
-          setAccepted(0);
+            setAccepted(0);
+            //save(code, false, o.time);
+            
         }
       });
     } else {
@@ -115,6 +117,7 @@ const ProblemPage = (props: PageType): JSX.Element => {
           if (props.updateUserInfo) {
             props.updateUserInfo();
           }
+          props.alert("Saved to DB", "info");
           console.log(msg);
         });
       } catch (error) {
@@ -124,7 +127,7 @@ const ProblemPage = (props: PageType): JSX.Element => {
       localStorage.setItem(id, JSON.stringify(code));
       props.alert("Saved to Local Storage", "info");
     }
-    console.log('saved');
+    
   };
 
   return (

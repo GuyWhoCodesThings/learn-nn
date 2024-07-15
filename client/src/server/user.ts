@@ -3,7 +3,7 @@ import { isRecord } from "../functions.ts";
 
 
 
-export type UserProblem = {url: string, status: string, code: string}
+export type UserProblem = {url: string, status: string, code: string, time: number}
 export type UserWork = [UserProblem]
 
 const checkTypeUserProblem = (obj: UserProblem) => {
