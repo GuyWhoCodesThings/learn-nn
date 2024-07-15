@@ -45,7 +45,6 @@ const ProblemPage = (props: PageType): JSX.Element => {
     const fetchData = (id: string) => {
       loadProblem(id, (p) => {
 
-        console.log(p)
         setProblem(p);
         if (props.currentUser) {
           loadWork(props.currentUser, id, (c) => {
@@ -127,7 +126,7 @@ const ProblemPage = (props: PageType): JSX.Element => {
 
   if (!problem){
     return (
-        <div>Loading Problem...</div>
+        <div className="p-6">Loading Problem...</div>
     )
   }
 

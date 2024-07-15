@@ -2,13 +2,21 @@ import { Editor } from '@monaco-editor/react';
 import { useEffect, useRef, useState } from 'react';
 
 
+type EditorType = {
+  userCode: string,
+  starterCode: string,
+  run: (x: string) => void,
+  save: (x: string) => void
+}
 
-const CodeEditor = (props: {userCode: string, starterCode: string, run: (x: string) => void, save: (x: string) => void}): JSX.Element => {
+const CodeEditor = (props: EditorType): JSX.Element => {
 
 
-
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState<string>('');
   const didMountRef = useRef(false)
+
+  console.log(code)
+  console.log()
   
   const handleCodeChange = (value?: string): void => {
     if (value !== undefined) {
@@ -21,10 +29,8 @@ const CodeEditor = (props: {userCode: string, starterCode: string, run: (x: stri
       event.preventDefault(); 
       console.log("ctrl + s pressed")
       props.save(code)
-      
     }
   }
-
 
   useEffect(() => {
     if (didMountRef.current) {

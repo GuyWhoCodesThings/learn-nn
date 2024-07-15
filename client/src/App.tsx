@@ -90,7 +90,12 @@ function App() {
   }, [user])
 
   if (loading || problems === null) {
-    return <div>Loading...</div>
+    return (
+      <div>
+        Loading... 
+        (because I don't want to pay more for hosting, server can take 50+ seconds to start ):)
+      </div>
+    )
   }
 
   return (
