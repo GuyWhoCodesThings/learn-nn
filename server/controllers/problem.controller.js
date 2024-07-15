@@ -114,13 +114,17 @@ export const python = (req, res) => {
     }
     const code = "import torch\n" + userCode;
     
-
-    fs.writeFileSync("submission.py", code);
-
     const promises = [];
     const testCaseResults = [];
 
     const start = performance.now();
+
+    fs.writeFile("submission.py", code, (err) => {
+
+    if (err) {
+        console.log('failed writing file')
+        res.status(400).send('failed writing file')
+    }
 
     tests.forEach((test) => {
         promises.push(
@@ -134,7 +138,7 @@ export const python = (req, res) => {
                     time: 0
                 };
 
-                const command = `test.py`; // Limit to 1GB (1048576 KB)
+                const command = `submission.py`; // Limit to 1GB (1048576 KB)
                 // console.log("test: ", test)
                 const shell = new PythonShell(command, {
                     mode: "text",
@@ -204,4 +208,6 @@ export const python = (req, res) => {
             console.error("Promise.all Error:", err);
             res.json({ testCaseResults, time: time });
         });
+
+    });
 };
