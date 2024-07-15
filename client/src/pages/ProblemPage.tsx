@@ -28,6 +28,7 @@ const ProblemPage = (props: PageType): JSX.Element => {
   const [isActive, setActive] = useState(false);
   const [userCode, setUserCode] = useState('');
 
+
   const doUpdateWork = (userProblem: UserProblem) => {
     if (userProblem.code !== '') {
       setUserCode(userProblem.code);
@@ -40,9 +41,11 @@ const ProblemPage = (props: PageType): JSX.Element => {
   };
 
   useEffect(() => {
+    
     const fetchData = (id: string) => {
       loadProblem(id, (p) => {
-        props.changeLoading(true);
+
+        console.log(p)
         setProblem(p);
         if (props.currentUser) {
           loadWork(props.currentUser, id, (c) => {
@@ -55,11 +58,17 @@ const ProblemPage = (props: PageType): JSX.Element => {
             setProblem({ ...p, starterCode: JSON.parse(current) });
           }
         }
-        props.changeLoading(false);
+        
       });
     };
     if (id) {
-      fetchData(id);
+        props.changeLoading(true);
+        try {
+            fetchData(id);
+        } finally {
+            props.changeLoading(false)
+        }
+        
     }
   }, [id, props.currentUser, accepted]);
 
@@ -116,10 +125,16 @@ const ProblemPage = (props: PageType): JSX.Element => {
     console.log('saved');
   };
 
+  if (!problem){
+    return (
+        <div>Loading Problem...</div>
+    )
+  }
+
   return (
 
     <div className=" w-lvh h-full bg-none pt-6">
-      {!props.currentUser &&
+      {!props.currentUser && problem &&
         <div className="text bg-blue-400 bg-opacity-30">
           You need to <NavLink to="/sign-in">Login / Sign Up</NavLink> to run code
         </div>
