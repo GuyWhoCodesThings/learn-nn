@@ -91,9 +91,23 @@ function App() {
 
   if (loading || problems === null) {
     return (
-      <div>
-        Loading... 
-        (because I don't want to pay more for hosting, server can take 50+ seconds to start ):)
+      <div className='p-16 mt-16 flex flex-col gap-6'>
+        <div className='flex items-center gap-4'>
+          <h3
+          className=' text-3xl'>
+            Loading
+          </h3>
+          <div
+            className="inline-block h-16 w-16 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+            role="status">
+          </div>
+          
+        </div>
+        <p className='text-sm opacity-60'>
+        because I don't want to pay more for hosting, server can take 50+ seconds to start ):
+        </p>
+        
+        
       </div>
     )
   }
