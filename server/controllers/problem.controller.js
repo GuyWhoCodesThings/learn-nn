@@ -94,7 +94,7 @@ export const listProblems = async (_req, res) => {
 }
 export const python = (req, res) => {
 
-    const ms = 30000
+    const ms = 10000
     const tests = req.body.tests;
     const userCode = req.body.code.replace(/\u00A0/g, " ")
     const safe = isSafe(userCode)
@@ -195,7 +195,7 @@ export const python = (req, res) => {
     });
 
     Promise.allSettled(promises)
-        .then(() => console.log(testCaseResults))
+        .then(() => console.log("finished"))
         .then(() => Math.floor(performance.now() - start))
         .then((time) => {
             res.json({ testCaseResults, time: time });
