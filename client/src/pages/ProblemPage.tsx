@@ -49,10 +49,10 @@ const ProblemPage = (props: PageType): JSX.Element => {
             doUpdateWork(c);
           });
         } else {
-         
-          const current = JSON.parse(localStorage.getItem(id));
+          const current = localStorage.getItem(id);
           if (current) {
-            setProblem({ ...p, starterCode: current });
+            
+            setProblem({ ...p, starterCode: JSON.parse(current) });
           }
         }
         props.changeLoading(false);

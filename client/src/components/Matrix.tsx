@@ -6,7 +6,7 @@ type MatrixProps = {
 const Matrix = (props: MatrixProps) => {
 
    
-    const s = JSON.stringify(props.matrix).replaceAll(',', ', ')
+    const s = JSON.stringify(props.matrix).replace(/,/g, ", ")
     const m = s.split(/[[]]/).filter((v: string) => /\d/.test(v))
 
     return (

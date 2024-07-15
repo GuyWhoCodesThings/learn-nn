@@ -9,19 +9,27 @@ type DescProps = {
 const Description = (props: DescProps): JSX.Element => {
 
     const [problem, setProblem] = useState<Problem | undefined>(undefined)
-    const [hints, setHints] = useState([])
+    const [hints, setHints] = useState<boolean[] | undefined>(undefined)
    
 
     const handleHintChange = (idx: number) => {
-        const updatedHints = [...hints]; // Create a new array with the current hints
-        updatedHints[idx] = !updatedHints[idx]; // Toggle the hint at the specified index
-        setHints(updatedHints); // Update the state with the new array
+        if (hints) {
+            const updatedHints: boolean[] = [...hints]; // Create a new array with the current hints
+            updatedHints[idx] = !updatedHints[idx]; // Toggle the hint at the specified index
+            setHints(updatedHints); // Update the state with the new array
+        }
+        
     }
 
     useEffect(() => {
         setProblem(props.problem)
         if (props.problem.hints) {
-            setHints(new Array(props.problem.hints.length).fill(false))
+            const cleanHints: boolean[] = new Array(props.problem.hints.length).fill(false)
+            if (cleanHints.length > 0) {
+                setHints(cleanHints)
+            }
+            
+            
         }
        
     }, [props.problem, props.accepted])
@@ -125,7 +133,7 @@ const Description = (props: DescProps): JSX.Element => {
                                             <button
                                             className="flex items-center "
                                             onClick={() => handleHintChange(idx)}>
-                                                {hints[idx] === true ? 
+                                                {hints && hints[idx] === true ? 
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
                                                 </svg> :
@@ -135,7 +143,7 @@ const Description = (props: DescProps): JSX.Element => {
                                                 }
                                             </button>
                                         </div>
-                                        {hints[idx] &&
+                                        {hints && hints[idx] &&
                                         <div
                                         className="text-sm ml-7">
                                             {h}

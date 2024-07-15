@@ -6,13 +6,13 @@ export type Problem = {
     url: string,
     topic: string,
     description: string,
-    args: [],
-    returns: [],
+    args: string[],
+    returns: string[],
     starterCode: string,
     difficulty: string,
-    hints: [string],
-    constraints: [],
-    tests: []
+    hints: string[],
+    constraints: string[],
+    tests: string[],
 }
 
 export type Submission = {
@@ -173,7 +173,7 @@ const doLoadError = (msg: string) => {
 
 export type runCallback = (out: Submission) => void;
 
-export const runProblem = (code: string, tests: [], cb: runCallback) => {
+export const runProblem = (code: string, tests: string[], cb: runCallback) => {
     fetch(`${import.meta.env.VITE_API_URL}/problem/python`, {
         method: "POST",
         body: JSON.stringify({

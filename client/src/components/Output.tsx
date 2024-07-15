@@ -13,7 +13,7 @@ interface OutputProps {
 const Output = (props: OutputProps) => {
     const [tab, setTab] = useState(0)
     const [activeIdx, setActiveIdx] = useState(0);
-    const tests: [] | undefined = props.problem ? props.problem.tests : undefined
+    const tests: string[] | undefined = props.problem ? props.problem.tests : undefined
 
     useEffect(() => {
 
@@ -93,10 +93,10 @@ const Output = (props: OutputProps) => {
                         }  
                     </div>
                     <div className="ml-2 w-full flex-col">
-                        {tests[activeIdx] && (
+                        {props.problem && props.problem.tests[activeIdx] && (
                             <>
                                 <div className="flex-col items-center m-2 text-left">
-                                    {tests[activeIdx].length < 4 ?
+                                    {props.problem.tests[activeIdx].length < 4 ?
                                     <div>
                                         <h3 className="mb-1">
                                             input = 
@@ -106,7 +106,7 @@ const Output = (props: OutputProps) => {
                                         </div>
                                     </div>
                                     :
-                                    tests[activeIdx].length < 5 ?
+                                    props.problem.tests[activeIdx].length < 5 ?
                                     <div>
                                         <h3 className="mb-1">
                                             y_pred = 
@@ -122,7 +122,7 @@ const Output = (props: OutputProps) => {
                                         </div>
                                     </div>
                                    :
-                                   tests[activeIdx].length < 6 ?
+                                   props.problem.tests[activeIdx].length < 6 ?
                                     <div>   
                                         <h3 className="mb-1">
                                             (in_dim, out_dim) =  ({tests[activeIdx][2]}, {tests[activeIdx][3]})
@@ -139,7 +139,7 @@ const Output = (props: OutputProps) => {
                                         </div>
                                     </div>
                                     :
-                                    tests[activeIdx].length === 6 ?
+                                    props.problem.tests[activeIdx].length === 6 ?
                                     <div>   
                                         <h3 className="mb-1">
                                             (model_dim, dk, dv) =  ({tests[activeIdx][2]}, {tests[activeIdx][3]}, {tests[activeIdx][4]})
@@ -166,7 +166,7 @@ const Output = (props: OutputProps) => {
                                     
                                 }
                                 </div>
-                                {tests[activeIdx].length < 7 ?
+                                {props.problem.tests[activeIdx].length < 7 ?
                                 <div className="flex-col items-center m-2 text-left">
                                 
                                     <h3 className="mb-1">
