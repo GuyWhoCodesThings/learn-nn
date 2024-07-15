@@ -12,11 +12,10 @@ type EditorType = {
 const CodeEditor = (props: EditorType): JSX.Element => {
 
 
+  console.log(props.starterCode)
+
   const [code, setCode] = useState<string>('');
   const didMountRef = useRef(false)
-
-  console.log(code)
-  console.log()
   
   const handleCodeChange = (value?: string): void => {
     if (value !== undefined) {
@@ -69,7 +68,7 @@ const CodeEditor = (props: EditorType): JSX.Element => {
         height="300vh" 
         theme='vs-dark'
         defaultLanguage="python" 
-        value={code} 
+        value="hello"
         onMount={(e) => e.focus()}
         onChange={handleCodeChange}  
       />
