@@ -58,6 +58,7 @@ function App() {
 
   useEffect(() => {
     doLoadChange(true)
+    setCount(0)
     console.log('user changed')
     const fetchData = (u: User | null) => {
      
@@ -89,6 +90,8 @@ function App() {
 
   }, [user])
 
+  const [count, setCount] = useState(0)
+
   if (loading || problems === null) {
     return (
       <div className='p-16 mt-16 flex flex-col gap-6'>
@@ -106,6 +109,10 @@ function App() {
         <p className='text-sm opacity-60'>
         because I don't want to pay more for hosting, server can take 50+ seconds to start ):
         </p>
+        <div className='text-sm flex gap-2 justify-between items-center'>
+          <p className='text-sm items-center text-center pt-2 flex opacity-60'>On the bright side, you can click on this number as you wait</p>
+          <button  className={`p-2 text-2xl  rounded w-8 h-8 text-center scale-${count * 100}`} onClick={() => setCount(count + 1)}>{count}</button>
+        </div>
         
         
       </div>

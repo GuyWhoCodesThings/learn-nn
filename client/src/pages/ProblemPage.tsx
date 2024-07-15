@@ -49,6 +49,7 @@ const ProblemPage = (props: PageType): JSX.Element => {
         if (props.currentUser) {
           loadWork(props.currentUser, id, (c) => {
             doUpdateWork(c);
+            props.changeLoading(false)
           });
         } else {
           const current = localStorage.getItem(id);
@@ -57,7 +58,7 @@ const ProblemPage = (props: PageType): JSX.Element => {
             setProblem({ ...p, starterCode: JSON.parse(current) });
           }
         }
-        props.changeLoading(false)
+        
         
       });
     };
@@ -77,6 +78,7 @@ const ProblemPage = (props: PageType): JSX.Element => {
     if (props.currentUser && problem) {
       const tests = problem.tests;
       setActive(true);
+      console.log(code)
       runProblem(code, tests, (o: Submission) => {
         setActive(false);
         console.log(o);
