@@ -57,6 +57,7 @@ const ProblemPage = (props: PageType): JSX.Element => {
             setProblem({ ...p, starterCode: JSON.parse(current) });
           }
         }
+        props.changeLoading(false)
         
       });
     };
@@ -123,12 +124,6 @@ const ProblemPage = (props: PageType): JSX.Element => {
     }
     console.log('saved');
   };
-
-  if (!problem){
-    return (
-        <div className="p-6">Loading Problem...</div>
-    )
-  }
 
   return (
 

@@ -94,7 +94,7 @@ export const listProblems = async (_req, res) => {
 }
 export const python = (req, res) => {
 
-    const ms = 10000
+    const ms = 20000
     const tests = req.body.tests;
     const userCode = req.body.code.replace(/\u00A0/g, " ")
     const safe = isSafe(userCode)
