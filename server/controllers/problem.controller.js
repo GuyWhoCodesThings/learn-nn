@@ -138,7 +138,7 @@ export const python = (req, res) => {
                     time: 0
                 };
 
-                const command = `submission.py`; // Limit to 1GB (1048576 KB)
+                const command = `test.py`; // Limit to 1GB (1048576 KB)
                 // console.log("test: ", test)
                 const shell = new PythonShell(command, {
                     mode: "text",
@@ -199,7 +199,6 @@ export const python = (req, res) => {
     });
 
     Promise.allSettled(promises)
-        .then(() => console.log("finished"))
         .then(() => Math.floor(performance.now() - start))
         .then((time) => {
             res.json({ testCaseResults, time: time });

@@ -99,7 +99,7 @@ const ProblemPage = (props: PageType): JSX.Element => {
           
         } else {
             setAccepted(0);
-            //save(code, false, o.time);
+            save(code, false, o.time);
             
         }
       });
@@ -113,6 +113,7 @@ const ProblemPage = (props: PageType): JSX.Element => {
     if (!id) throw new Error("impossible");
     if (props.currentUser && problem) {
       try {
+        
         saveWork(props.currentUser, code, problem.url, completed, time, (msg) => {
           if (props.updateUserInfo) {
             props.updateUserInfo();

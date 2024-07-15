@@ -71,6 +71,8 @@ export const saveUserCode = async (req, res) => {
         const uid = req.uid;
         const { url, code, completed, time } = req.body;
 
+        console.log(`completed: ${completed}`)
+
        
         if (typeof url !== 'string') {
             res.status(400).send('url must be a string');
@@ -112,8 +114,13 @@ export const saveUserCode = async (req, res) => {
             }
             
         } else {
-            user.problems.push({ url, code, status: "attempted", time });
-           
+
+            if (completed) {
+                user.problems.push({ url, code, status: "completed", time });
+            } else {
+                user.problems.push({ url, code, status: "attempted", time });
+            }
+            
         }
 
         await user.save();
