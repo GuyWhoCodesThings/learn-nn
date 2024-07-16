@@ -35,7 +35,7 @@ const Description = (props: DescProps): JSX.Element => {
     }, [props.problem, props.accepted])
     
     return (
-        <div>
+        <div className="h-full">
         {problem ?
         <div className=' rounded-md bg-zinc-800 m-1 h-full '>
                     
