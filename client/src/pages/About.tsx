@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 export default function About() {
   return (
     <div 
-    className="w-full bg-none mt-10 text-left">
+    className="w-full bg-none m-16 text-left">
       <main
       
       className="container mx-auto bg-none p-4 rounded-md flex flex-col gap-8">
@@ -32,8 +32,6 @@ export default function About() {
             </div>
           </div>
 
-       
-            
           </div>
           <div className="flex flex-col gap-4 w-full m-2 mt-4 h-fit justify-center items-center text-left max-w-xlg md:w-1/2 lg:w-1/2">
             <p>

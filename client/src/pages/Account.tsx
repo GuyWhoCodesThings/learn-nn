@@ -89,7 +89,7 @@ const Account = (props: AccountType) => {
 
     return (
         <div 
-        className="w-full  h-full mt-10 text-left">
+        className="w-full  h-full mt-16 text-left">
           <main
           className="container w-full mx-auto bg-none p-4 rounded-md flex flex-col gap-8">
             

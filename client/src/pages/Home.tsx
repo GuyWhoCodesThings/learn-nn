@@ -10,7 +10,7 @@ type HomeType = {
 
 const Home = (props: HomeType) => {
   return (
-    <div className="w-full bg-none mt-10">
+    <div className="w-full bg-none mt-16">
       { <Profile problems={props.problems} infoSet={props.infoSet ? props.infoSet : undefined} />}
       <div className="container mx-auto bg-zinc-800 p-2 rounded-md shadow-md ">
         <div className="flex flex-col">
