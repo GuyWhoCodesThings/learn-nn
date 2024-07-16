@@ -110,7 +110,7 @@ const SignUp = (props: {initError?: string}) => {
             <p className="mt-10 text-center text-sm text-gray-300">
               Already a user?{' '}
               <NavLink to="/sign-in" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                Sign In
+                Login
               </NavLink>
             </p>
           </div>

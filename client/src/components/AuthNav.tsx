@@ -19,7 +19,7 @@ const AuthNav = () => {
             <ul className="flex justify-between items-center gap-10 w-full pr-5 pl-5">
                 <li className="">
                     <NavLink to="/" className="text-white">
-                        Problems
+                        Problem List
                     </NavLink>
                 </li>
                 <li>
