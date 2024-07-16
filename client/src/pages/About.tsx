@@ -13,7 +13,7 @@ export default function About() {
         
           </h1>
           <p className="font-light opacity-80 w-1/2">
-            With tests and the scaffolding already built-in, you can focus on the theory
+            With tests and scaffolding already built-in, you can just focus on the theory
           </p>
         </div>
 

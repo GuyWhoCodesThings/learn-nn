@@ -1,13 +1,34 @@
 import {useState} from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth } from '../firebase.ts';
 import { NavLink, useNavigate } from 'react-router-dom'
+import { FaGoogle, FaGithub, FaFacebook } from "react-icons/fa";
  
 const SignIn = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+
+    const handlePopup = (e: React.MouseEvent<HTMLButtonElement>, providerName: string): void => {
+      e.preventDefault()
+      const provider = providerName === 'go' ? new GoogleAuthProvider() : (providerName === 'fa' ? new FacebookAuthProvider() : new GithubAuthProvider())
+      signInWithPopup(auth, provider)
+      .then(() => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        // The signed-in user info.
+        navigate("/")
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        setError(errorCode + "" + errorMessage)
+        // ...
+      });
+    }
        
     const onSignInClick = (e:  React.MouseEvent<HTMLButtonElement>) => {
       setError('')
@@ -43,7 +64,7 @@ const SignIn = () => {
             </h2>
           </div>
   
-          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
             <form className="space-y-6" action="#" method="POST">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium leading-6 ">
@@ -92,15 +113,13 @@ const SignIn = () => {
                 <button
                   type="submit"
                   onClick={onSignInClick}
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Login
                 </button>
               </div>
             </form>
-            <p className="mt-5 text-center text-md text-red-500">
-              {error}
-            </p>
+            
   
             <p className="mt-5 text-center text-sm text-gray-300">
               Don't have an account?{' '}
@@ -108,6 +127,32 @@ const SignIn = () => {
                 Sign Up
               </NavLink>
             </p>
+
+            <div className='flex flex-col gap-4 mt-8 text-sm font-light'>
+                <p>or you can login with</p>
+                <div className='flex gap-1 w-full justify-center'>
+                  <button
+                    onClick={(e) => handlePopup(e, 'gi')}
+                  >
+                    <FaGithub size={45}  className=" hover:text-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600" />
+                  </button>
+                  <button
+                    onClick={(e) => handlePopup(e, 'go')}
+                  >
+                    <FaGoogle size={45}  className="hover:text-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" />
+                  </button>
+                  <button
+                    onClick={(e) => handlePopup(e, 'fa')}
+                  >
+                    <FaFacebook size={45}  className="hover:text-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" />
+                  </button>
+                  
+                </div>
+
+                <p className="mt-5 text-center text-md text-red-500">
+                  {error}
+                </p>
+            </div>
           </div>
         </div>
       </div>

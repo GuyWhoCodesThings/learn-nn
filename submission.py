@@ -1,4 +1,4 @@
 import torch
-class Sigmoid(torch.nn.Module):
+class ReLU(torch.nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return 1 / (1 + torch.exp(-x))
+        return torch.max(x, torch.zeros_like(x))
