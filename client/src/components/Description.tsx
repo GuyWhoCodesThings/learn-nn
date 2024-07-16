@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Problem } from "../server/problem.ts"
+import { Editor } from "@monaco-editor/react"
 
 type DescProps = {
     problem: Problem,
@@ -8,6 +9,7 @@ type DescProps = {
 
 const Description = (props: DescProps): JSX.Element => {
 
+    const [tab, setTab] = useState(true)
     const [problem, setProblem] = useState<Problem | undefined>(undefined)
     const [hints, setHints] = useState<boolean[] | undefined>(undefined)
    
@@ -37,25 +39,31 @@ const Description = (props: DescProps): JSX.Element => {
     return (
         <div className="h-full">
         {problem ?
-        <div className=' rounded-md bg-zinc-800 m-1 h-full '>
+        <div className='rounded-md bg-zinc-800 m-1 h-full '>
                     
-
-            
             <div className='flex pt-1 pb-1 bg-zinc-700 h-8 rounded-t-md text-left pl-2 items-center gap-2'>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                 </svg>
-                <h3
-               
-                className="bg-none flex items-center text-center">
+                <button
+               onClick={() => setTab(true)}
+                className="bg-none p-0 flex items-center text-center">
                     Description
-                </h3>
+                </button>
+                <button
+               onClick={() => setTab(false)}
+                className="bg-none p-0 flex items-center text-center">
+                    Solution
+                </button>
              
-                
-                
             </div>
 
             <div className="m-2 text-left flex-col">
+
+                {tab ?
+                
+                <div>
+
                 <div className="pt-2 pb-2">
                   
                     
@@ -157,8 +165,24 @@ const Description = (props: DescProps): JSX.Element => {
                     </ul>
    
                 }
-  
+                </div>
+            :
+            <div>
+                                                          
+                <Editor 
+                height="150vh"
+                theme='vs-dark'
+                defaultLanguage="python" 
+                value={problem.solution}
+                onMount={(e) => e.focus()}
+                />
+                                                        
+            </div>}
             </div>
+
+
+            
+            
     
         </div>
         :

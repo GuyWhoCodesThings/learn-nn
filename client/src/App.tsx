@@ -16,6 +16,7 @@ import Alert from './components/Alert.tsx';
 import { userInfoToSet } from './functions.ts';
 import Reset from './pages/Reset.tsx';
 import About from './pages/About.tsx';
+import Account from './pages/Account.tsx';
 
 export type iSet = 
 {
@@ -136,6 +137,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/" element={<Home infoSet={infoSet} problems={problems} />} />
         <Route path="/problem/:id" element={<ProblemPage updateUserInfo={() => doUserInfoChange(user)} alert={(m,t) => doAlert(m,t)} currentUser={user} changeLoading={(b) => doLoadChange(b)}/>} />
+        <Route path="/account" element={<Account user={user} />} />
       </Routes>
       }
       {alert &&

@@ -133,13 +133,14 @@ const ProblemPage = (props: PageType): JSX.Element => {
 
   return (
 
-    <div className=" w-lvh h-full bg-none pt-6">
+    <div className=" w-lvh h-full bg-none pt-6 flex">
       {!props.currentUser && problem &&
         <div className="text bg-blue-400 bg-opacity-30">
           You need to <NavLink to="/sign-in">Login / Sign Up</NavLink> to run code
         </div>
       }
-      <PanelGroup autoSaveId="example" direction="horizontal">
+      <PanelGroup autoSaveId="example" direction="horizontal"
+      >
         <Panel defaultSize={35} minSize={10}>
           {problem && <Description problem={problem} accepted={accepted} />}
         </Panel>

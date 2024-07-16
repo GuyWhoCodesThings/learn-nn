@@ -10,6 +10,7 @@ export type Problem = {
     returns: string[],
     starterCode: string,
     difficulty: string,
+    solution: string,
     hints: string[],
     constraints: string[],
     tests: string[],

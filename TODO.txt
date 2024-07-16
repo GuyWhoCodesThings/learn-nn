@@ -19,8 +19,11 @@ RNN -> have forward be for whole sequence
 resources:
 https://github.com/dsgiitr/d2l-pytorch/blob/master/Ch12_Optimization_Algorithms/Momentum.ipynb
 
+https://stackoverflow.com/questions/42364694/consecutive-writings-to-files-in-the-server-are-slow
 
 *tests for network layer
+
+https://towardsdatascience.com/build-your-own-transformer-from-scratch-using-pytorch-84c850470dcb
 
 
 A = x @ Q @ KT @ xT

@@ -65,7 +65,7 @@ const CodeEditor = (props: EditorType): JSX.Element => {
      </div>
                                                           
       <Editor 
-        height="300vh" 
+        height="100vh" 
         theme='vs-dark'
         defaultLanguage="python" 
         value={code}
