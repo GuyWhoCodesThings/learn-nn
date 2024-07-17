@@ -2,7 +2,8 @@ import {useState} from 'react';
 import { FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth } from '../firebase.ts';
 import { NavLink, useNavigate } from 'react-router-dom'
-import { FaGoogle, FaGithub, FaFacebook } from "react-icons/fa";
+import { FaGoogle } from "react-icons/fa";
+import { AiFillCodeSandboxCircle } from "react-icons/ai";
  
 const SignIn = () => {
     const navigate = useNavigate();
@@ -51,15 +52,12 @@ const SignIn = () => {
  
     
     return (
-      <div className='relative w-max'>
+      <div className='relative w-screen mt-6'>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <img
-              className="mx-auto h-10 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt="Your Company"
-            />
-            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight ">
+            
+            <AiFillCodeSandboxCircle size={100} className='mx-auto w-auto text-red-500' />
+            <h2 className="mt-4 text-center text-2xl font-bold leading-9 tracking-tight ">
               Login to your account
             </h2>
           </div>
@@ -131,21 +129,21 @@ const SignIn = () => {
             <div className='flex flex-col gap-4 mt-8 text-sm font-light'>
                 <p>or you can login with</p>
                 <div className='flex gap-1 w-full justify-center'>
-                  <button
+                  {/* <button
                     onClick={(e) => handlePopup(e, 'gi')}
                   >
                     <FaGithub size={45}  className=" hover:text-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600" />
-                  </button>
+                  </button> */}
                   <button
                     onClick={(e) => handlePopup(e, 'go')}
                   >
                     <FaGoogle size={45}  className="hover:text-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" />
                   </button>
-                  <button
+                  {/* <button
                     onClick={(e) => handlePopup(e, 'fa')}
                   >
                     <FaFacebook size={45}  className="hover:text-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" />
-                  </button>
+                  </button> */}
                   
                 </div>
 

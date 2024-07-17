@@ -133,7 +133,7 @@ const ProblemPage = (props: PageType): JSX.Element => {
 
   return (
 
-    <div className=" w-full h-screen bg-none pt-12 flex flex-col">
+    <div className="w-full h-screen bg-none pt-12 flex flex-col">
       {!props.currentUser && problem &&
         <div className="text bg-blue-400 bg-opacity-30">
           You need to <NavLink to="/sign-in">Login / Sign Up</NavLink> to run code

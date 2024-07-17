@@ -37,7 +37,7 @@ const Description = (props: DescProps): JSX.Element => {
     }, [props.problem, props.accepted])
     
     return (
-        <div className="h-full">
+        <div className="h-full w-full">
         {problem ?
         <div className='rounded-md bg-zinc-800 m-1 h-full '>
                     
@@ -170,7 +170,7 @@ const Description = (props: DescProps): JSX.Element => {
             <div>
                                                           
                 <Editor 
-                height="150vh"
+                height="100vh"
                 theme='vs-dark'
                 defaultLanguage="python" 
                 value={problem.solution}

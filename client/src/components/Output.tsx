@@ -125,11 +125,8 @@ const Output = (props: OutputProps) => {
                                    props.problem.tests[activeIdx].length < 6 ?
                                     <div>   
                                         <h3 className="mb-1">
-                                            (in_dim, out_dim) =  ({tests[activeIdx][2]}, {tests[activeIdx][3]})
+                                            layer initialization = {tests[activeIdx][0]}({tests[activeIdx][2]}, {tests[activeIdx][3]})
                                         </h3> 
-                                        <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4 flex gap-2">
-                                            ({tests[activeIdx][2]}, {tests[activeIdx][3]})
-                                        </div>
                                        
                                         <h3 className="mb-1">
                                            input =
@@ -142,7 +139,7 @@ const Output = (props: OutputProps) => {
                                     props.problem.tests[activeIdx].length === 6 ?
                                     <div>   
                                         <h3 className="mb-1">
-                                            (model_dim, dk, dv) =  ({tests[activeIdx][2]}, {tests[activeIdx][3]}, {tests[activeIdx][4]})
+                                        layer initialization = {tests[activeIdx][0]}({tests[activeIdx][2]}, {tests[activeIdx][3]}, {tests[activeIdx][4]})
                                         </h3>    
                                         <h3 className="mb-1">
                                            input =
@@ -154,7 +151,7 @@ const Output = (props: OutputProps) => {
                                     :
                                     <div>   
                                         <h3 className="mb-1">
-                                            (in_dim, out_dim, hid_dim) =  ({tests[activeIdx][3]}, {tests[activeIdx][4]}, {tests[activeIdx][5]})
+                                        layer initialization = {tests[activeIdx][0]}({tests[activeIdx][3]}, {tests[activeIdx][4]}, {tests[activeIdx][5]})
                                         </h3>    
                                         <h3 className="mb-1">
                                            input =

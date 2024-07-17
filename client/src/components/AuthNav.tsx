@@ -1,6 +1,7 @@
 import { signOut } from "firebase/auth";
 import { NavLink } from "react-router-dom";
 import { auth } from '../firebase.ts';
+import { AiFillCodeSandboxCircle } from "react-icons/ai";
 
 const AuthNav = () => {
 
@@ -18,7 +19,8 @@ const AuthNav = () => {
         <div className="fixed top-0 z-50 left-0 w-screen p-3 bg-zinc-800">
             <ul className="flex justify-between items-center gap-10 w-full pr-5 pl-5">
                 <li className="">
-                    <NavLink to="/" className="text-white">
+                    <NavLink to="/" className="text-white flex items-center gap-1">
+                        <AiFillCodeSandboxCircle size={25} className='mx-auto w-auto text-red-500' />
                         Problem List
                     </NavLink>
                 </li>

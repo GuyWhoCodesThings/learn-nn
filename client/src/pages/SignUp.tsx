@@ -3,7 +3,8 @@ import {  createUserWithEmailAndPassword, FacebookAuthProvider, GithubAuthProvid
 import { auth } from '../firebase.ts';
 import { createUser } from '../server/user.ts';
 import { useState } from 'react';
-import { FaGoogle, FaGithub, FaFacebook } from "react-icons/fa";
+import { FaGoogle } from "react-icons/fa";
+import { AiFillCodeSandboxCircle } from 'react-icons/ai';
 
 
 
@@ -69,14 +70,10 @@ const SignUp = (props: {initError?: string}) => {
     }
  
   return (
-      <div className='flex w-max'>
+      <div className='flex w-screen mt-6'>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <img
-              className="mx-auto h-10 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt="Your Company"
-            />
+            <AiFillCodeSandboxCircle size={100} className='mx-auto w-auto text-red-500' />
             <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight ">
               Sign Up
             </h2>
@@ -146,21 +143,21 @@ const SignUp = (props: {initError?: string}) => {
             <div className='flex flex-col gap-4 mt-8 text-sm font-light'>
                 <p>or you can sign up with</p>
                 <div className='flex gap-1 w-full justify-center'>
-                  <button
+                  {/* <button
                     onClick={(e) => handlePopup(e, 'gi')}
                   >
                     <FaGithub size={45}  className=" hover:text-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600" />
-                  </button>
+                  </button> */}
                   <button
                     onClick={(e) => handlePopup(e, 'go')}
                   >
                     <FaGoogle size={45}  className="hover:text-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" />
                   </button>
-                  <button
+                  {/* <button
                     onClick={(e) => handlePopup(e, 'fa')}
                   >
                     <FaFacebook size={45}  className="hover:text-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" />
-                  </button>
+                  </button> */}
                   
                 </div>
 
