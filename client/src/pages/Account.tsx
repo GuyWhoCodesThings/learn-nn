@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { IoIosCheckmarkCircle } from "react-icons/io";
-import { EmailAuthProvider, reauthenticateWithCredential, sendEmailVerification, updateEmail, updatePassword, User } from "firebase/auth";
+import { EmailAuthProvider, reauthenticateWithCredential, sendEmailVerification, updatePassword, User, verifyBeforeUpdateEmail } from "firebase/auth";
 
 type AccountType = {
   user: User
@@ -9,9 +9,9 @@ type AccountType = {
 const Account = (props: AccountType) => {
 
     const [error, setError] = useState('')
+    const [message, setMessage] = useState('')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
-    const [emailSent, setEmailSent] = useState(false)
     const [oldPassword, setOldPassword] = useState('')
     const [change, setChange] = useState(true)
 
@@ -19,10 +19,10 @@ const Account = (props: AccountType) => {
     const handleVerification = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       setError('')
+      setMessage('')
       sendEmailVerification(props.user)
       .then(() => {
-        console.log('verification email sent!')
-        setEmailSent(true)
+        setMessage('verification email sent!')
       })
       .catch((err) => {
         setError(JSON.stringify(err))
@@ -34,7 +34,8 @@ const Account = (props: AccountType) => {
 
       updatePassword(props.user, password)
       .then(() => {
-        console.log('password changed')
+        setMessage('password changed')
+        setOldPassword('')
         setPassword('')
       }).catch((err) => {
         setError(JSON.stringify(err))
@@ -42,12 +43,24 @@ const Account = (props: AccountType) => {
     }
     const handleEmailUpdate = (): void => {
 
-      updateEmail(props.user, email)
-      .then(() => {
-        setEmail('')
-        console.log('email changed')
+      console.log('entered email update')
 
-      }).catch((err) => {
+      verifyBeforeUpdateEmail(props.user, email)
+      .then(() => {
+
+        setMessage(`email send to ${email} with instructions to change email`)
+
+        // signOut(auth).then(() => {
+                  
+        //     console.log("Signed out successfully")
+
+        // }).catch((err) => {
+
+        //   setError(JSON.stringify(err))
+        // });
+
+      })
+      .catch((err) => {
         setError(JSON.stringify(err))
         
       })
@@ -57,9 +70,15 @@ const Account = (props: AccountType) => {
       e.preventDefault();
 
       setError('')
+      setMessage('')
 
       if (typeof props.user.email !== 'string') {
         setError('current user email is not valid')
+        return;
+      }
+
+      if (!change) {
+        handleEmailUpdate()
         return;
       }
 
@@ -71,11 +90,8 @@ const Account = (props: AccountType) => {
         reauthenticateWithCredential(props.user, cred)
         .then(() => {
 
-          if (change) {
-            handlePasswordUpdate()
-          } else {
-            handleEmailUpdate()
-          }
+          handlePasswordUpdate()
+          
         })
         .catch((err) => {
           setError(JSON.stringify(err))
@@ -89,27 +105,29 @@ const Account = (props: AccountType) => {
 
     return (
         <div 
-        className="w-full  h-full mt-16 text-left">
+        className="w-full max-w-2xl h-full mt-16 text-left">
           <main
           className="container w-full mx-auto bg-none p-4 rounded-md flex flex-col gap-8">
             
 
             <h2 className="text-4xl justify-center flex gap-2">Account</h2>
 
-            <div className="flex justify-center">
+            <div className="flex flex-col items-center justify-center gap-2">
+              <p>registered email: {props.user.email}</p>
               {props.user.emailVerified ? 
-              <p className="flex gap-1 items-center">email verified <IoIosCheckmarkCircle size={15} className="text-green-500" /></p> : 
+              <p className="flex gap-1 items-center">email verified <IoIosCheckmarkCircle size={15} className="text-green-500" /></p>
+              : 
               <button
               onClick={(e) => handleVerification(e)}
               className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                {emailSent ? "Send Verification Email" : "Email Sent!"}
+                Send Verification Email
               </button>}
             </div>
 
             
             <form className="space-y-6">
               <p className="text-center">I want to change my</p>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-center gap-4">
                 <div className="text-sm font-medium leading-6 flex gap-2">
                   <label>Password</label>
                   <input type="radio" name="change" value="pass" checked={change} onChange={() => setChange(true)}/>
@@ -120,47 +138,50 @@ const Account = (props: AccountType) => {
                 </div>
               </div>
             
-            <div>
+            { change ?
+              <div>
+              
+              <div className="flex items-center justify-between">
+                <label htmlFor="password" className="block text-sm font-medium leading-6 ">
+                  Old Password
+                </label>
+              </div>
+              <div className="mt-2">
+                <input
+                  id="passwordOld"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  className="p-1 block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            
+            
+           
+              <div>
                 <div className="flex items-center justify-between">
                   <label htmlFor="password" className="block text-sm font-medium leading-6 ">
-                    Old Password
+                    New Password
                   </label>
                 </div>
                 <div className="mt-2">
                   <input
-                    id="passwordOld"
+                    id="passwordNew"
                     name="password"
                     type="password"
                     autoComplete="current-password"
                     required
-                    value={oldPassword}
-                    onChange={(e) => setOldPassword(e.target.value)}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="p-1 block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
-              { change ?
-             
-                <div>
-                  <div className="flex items-center justify-between">
-                    <label htmlFor="password" className="block text-sm font-medium leading-6 ">
-                      New Password
-                    </label>
-                  </div>
-                  <div className="mt-2">
-                    <input
-                      id="passwordNew"
-                      name="password"
-                      type="password"
-                      autoComplete="current-password"
-                      required
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="p-1 block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
-                </div>
-    
+            </div>
+                
               :
               <div>
                 <div className="flex items-center justify-between">
@@ -182,19 +203,21 @@ const Account = (props: AccountType) => {
                 </div>
               </div>
               }
+              
   
-              <div>
-                <button
+              
+            </form>
+            <button
                 type="submit"
                   onClick={(e) => handleSubmit(e)}
                   className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Update
+                  {change ? "Update" : "Send Reset Email"}
                 </button>
-              </div>
-            </form>
 
-            <p className="text-sm text-red-500">{error}</p>
+
+            <p className="text-sm font-light text-green-500 text-center">{message}</p>
+            <p className="text-sm font-light text-red-500 text-center">{error}</p>
 
           </main>
          
