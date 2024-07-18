@@ -17,6 +17,7 @@ import { userInfoToSet } from './functions.ts';
 import Reset from './pages/Reset.tsx';
 import About from './pages/About.tsx';
 import Account from './pages/Account.tsx';
+import Contact from './pages/Contact.tsx';
 
 export type iSet = 
 {
@@ -126,6 +127,7 @@ function App() {
     {user === null || user === undefined ? <UnAuthNav /> : <AuthNav />}
     {user === null || user === undefined ?
       <Routes>
+        <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/" element={<Home problems={problems}/>} />
         <Route path="/problem/:id" element={<ProblemPage alert={(m,t) => doAlert(m,t)} changeLoading={(b) => doLoadChange(b)}/>} />
@@ -134,6 +136,7 @@ function App() {
         <Route path="sign-in/reset" element={< Reset />} />
       </Routes> : 
       <Routes>
+        <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/" element={<Home infoSet={infoSet} problems={problems} />} />
         <Route path="/problem/:id" element={<ProblemPage updateUserInfo={() => doUserInfoChange(user)} alert={(m,t) => doAlert(m,t)} currentUser={user} changeLoading={(b) => doLoadChange(b)}/>} />
