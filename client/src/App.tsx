@@ -18,6 +18,7 @@ import Reset from './pages/Reset.tsx';
 import About from './pages/About.tsx';
 import Account from './pages/Account.tsx';
 import Contact from './pages/Contact.tsx';
+import Footer from './components/Footer.tsx';
 
 export type iSet = 
 {
@@ -143,6 +144,7 @@ function App() {
         <Route path="/account" element={<Account user={user} />} />
       </Routes>
       }
+      < Footer />
       {alert &&
       <Alert message={alert?.message} theme={alert?.theme}/>
       }

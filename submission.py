@@ -1,16 +1,45 @@
 import torch
-class PositionalEncoding(torch.nn.Module):
-    def __init__(self, max_seq_len, d_model):
-        super(PositionalEncoding, self).__init__()
+class LSTM(torch.nn.Module):
+    def __init__(self, in_dim, hid_dim):
+        super().__init__()
+        self.hid_dim = hid_dim
+        self.Wf = torch.randn(in_dim + hid_dim, hid_dim)
+        self.Wi = torch.randn(in_dim + hid_dim, hid_dim)
+        self.Wo = torch.randn(in_dim + hid_dim, hid_dim)
+        self.Wc = torch.randn(in_dim + hid_dim, hid_dim)
 
-        assert d_model % 2 == 0
+        self.Bf = torch.randn(hid_dim)
+        self.Bi = torch.randn(hid_dim)
+        self.Bo = torch.randn(hid_dim)
+        self.Bc = torch.randn(hid_dim)
 
-        embed = torch.zeros(max_seq_len, d_model)
-        pos = torch.arange(max_seq_len).reshape(-1,1)
-        denominators = torch.pow(10000, 2*torch.arange(0, d_model//2)/d_model)
-        embed[:, 0::2] = torch.sin(pos/denominators)
-        embed[:, 1::2] = torch.cos(pos/denominators)
-        self.encod = embed
-                
+    def forget(self, x, h):
+      cat = torch.cat((x, h), dim=1)
+      cat = cat @ self.Wf + self.Bf
+      cat = torch.nn.functional.sigmoid(cat)
+      return cat
+    def input(self, x, h):
+      cat = torch.cat((x, h), dim=1)
+      return torch.nn.functional.sigmoid(cat @ self.Wi + self.Bf)
+    def output(self, x, h):
+      cat = torch.cat((x, h), dim=1)
+      return torch.nn.functional.sigmoid(cat @ self.Wo + self.Bf)
+    def cell(self, x, h):
+      cat = torch.cat((x, h), dim=1)
+      return torch.nn.functional.tanh(cat @ self.Wf + self.Bf)
+
     def forward(self, x):
-        return x + self.encod
+
+        seq_len, batch_size, _ = x.shape 
+        h, c = self.init_hidden(batch_size)
+        output = []
+        for t in range(seq_len):
+                c = self.forget(x[t], h) * c + self.input(x[t], h) * self.cell(x[t], h)
+                h = self.output(x[t],h) * torch.nn.functional.tanh(c)
+                output.append(h)
+
+        output = torch.stack(output)
+        return output
+
+    def init_hidden(self, batch_size):
+        return (torch.zeros(batch_size, self.hid_dim), torch.zeros(batch_size, self.hid_dim))
