@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react"
 import { Problem } from "../server/problem.ts"
 import { Editor } from "@monaco-editor/react"
+import { User } from "firebase/auth"
+import { FaLock } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
+import 'katex/dist/katex.min.css';
+import Latex from 'react-latex-next';
 
 type DescProps = {
+    currentUser?: User,
     problem: Problem,
     accepted: number
 }
@@ -37,7 +43,7 @@ const Description = (props: DescProps): JSX.Element => {
     }, [props.problem, props.accepted])
     
     return (
-        <div className="h-full w-full">
+        <div className="h-full w-full mb-16">
         {problem ?
         <div className='rounded-md bg-zinc-800 m-1 h-full '>
                     
@@ -97,9 +103,11 @@ const Description = (props: DescProps): JSX.Element => {
                     </div>
                 </div>
       
-                <p className=" text-sm bg-zinc-700 rounded-md mt-2 mb-2 p-2">
-                    {problem.description}
-                </p>
+                <div className=" text-sm bg-zinc-700 rounded-md mt-2 mb-2 p-2">
+                    <Latex>{problem.description}</Latex>
+                </div>
+
+                
 
                 {Array.isArray(problem.args) &&
                     <div className="mt-6 mb-2">
@@ -167,17 +175,29 @@ const Description = (props: DescProps): JSX.Element => {
                 }
                 </div>
             :
-            <div>
-                                                          
+            
+            <div className="relative w-full">
+                {props.currentUser 
+                ?                                      
                 <Editor 
                 height="100vh"
                 theme='vs-dark'
                 defaultLanguage="python" 
                 value={problem.solution}
                 onMount={(e) => e.focus()}
-                />
+                /> 
+                :
+                <div className="flex flex-col items-center mt-12 gap-2">
+                   
+                        
+                    <FaLock className="text-yellow-500" size={35} />
+                    <p className="font-medium text-center">You need to <NavLink to="../sign-in">login</NavLink> to access solutions</p>
+                      
+                </div>
+                }
                                                         
-            </div>}
+            </div>
+            }
             </div>
 
 
@@ -187,6 +207,7 @@ const Description = (props: DescProps): JSX.Element => {
         </div>
         :
     <div></div>}
+    
     </div>
         
     )

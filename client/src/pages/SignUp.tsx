@@ -4,7 +4,7 @@ import { auth } from '../firebase.ts';
 import { createUser } from '../server/user.ts';
 import { useState } from 'react';
 import { FaGoogle } from "react-icons/fa";
-import { AiFillCodeSandboxCircle } from 'react-icons/ai';
+import { GiTorch } from "react-icons/gi";
 
 
 
@@ -73,7 +73,7 @@ const SignUp = (props: {initError?: string}) => {
       <div className='flex w-screen mt-6'>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <AiFillCodeSandboxCircle size={100} className='mx-auto w-auto text-red-500' />
+            < GiTorch size={100} className='mx-auto w-auto text-red-500 border-2 rounded-full' />
             <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight ">
               Sign Up
             </h2>

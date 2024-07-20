@@ -1,45 +1,43 @@
 import torch
-class LSTM(torch.nn.Module):
-    def __init__(self, in_dim, hid_dim):
-        super().__init__()
-        self.hid_dim = hid_dim
-        self.Wf = torch.randn(in_dim + hid_dim, hid_dim)
-        self.Wi = torch.randn(in_dim + hid_dim, hid_dim)
-        self.Wo = torch.randn(in_dim + hid_dim, hid_dim)
-        self.Wc = torch.randn(in_dim + hid_dim, hid_dim)
+class MultiHeadAttention(torch.nn.Module):
+  def __init__(self, model_dim, num_heads):
+    super().__init__()
+    assert model_dim % num_heads == 0
+    self.model_dim = model_dim
+    self.num_heads = num_heads
+    self.dk = model_dim // num_heads
+    self.Wk = torch.nn.Linear(model_dim, model_dim)
+    self.Wq = torch.nn.Linear(model_dim, model_dim)
+    self.Wv = torch.nn.Linear(model_dim, model_dim)
+    self.Wo = torch.nn.Linear(model_dim, model_dim)
+    self.softmax = torch.nn.Softmax(dim=-1)
 
-        self.Bf = torch.randn(hid_dim)
-        self.Bi = torch.randn(hid_dim)
-        self.Bo = torch.randn(hid_dim)
-        self.Bc = torch.randn(hid_dim)
 
-    def forget(self, x, h):
-      cat = torch.cat((x, h), dim=1)
-      cat = cat @ self.Wf + self.Bf
-      cat = torch.nn.functional.sigmoid(cat)
-      return cat
-    def input(self, x, h):
-      cat = torch.cat((x, h), dim=1)
-      return torch.nn.functional.sigmoid(cat @ self.Wi + self.Bf)
-    def output(self, x, h):
-      cat = torch.cat((x, h), dim=1)
-      return torch.nn.functional.sigmoid(cat @ self.Wo + self.Bf)
-    def cell(self, x, h):
-      cat = torch.cat((x, h), dim=1)
-      return torch.nn.functional.tanh(cat @ self.Wf + self.Bf)
+  def att(self, k, q, v):
+    attention_score = torch.matmul(q, k.transpose(-1,-2)) / self.dk ** 0.5
+    attention_score = self.softmax(attention_score)
+    output = attention_score @ v
+    return output
 
-    def forward(self, x):
 
-        seq_len, batch_size, _ = x.shape 
-        h, c = self.init_hidden(batch_size)
-        output = []
-        for t in range(seq_len):
-                c = self.forget(x[t], h) * c + self.input(x[t], h) * self.cell(x[t], h)
-                h = self.output(x[t],h) * torch.nn.functional.tanh(c)
-                output.append(h)
+  # (batch_size, seq_len, model_dim) => (batch_size, dk, seq_len, model_dim)
+  def split(self, m):
+    batch_size, seq_len, model_dim = m.shape
+    m = torch.reshape(m, (batch_size, seq_len, self.num_heads, self.dk))
+    m = m.transpose(1, 2)
+    return m
 
-        output = torch.stack(output)
-        return output
+  def combine(self, m):
+    batch_size, num_heads, seq_len, dk = m.shape
+    m = m.transpose(1,2)
+    m = m.reshape(batch_size, seq_len, self.model_dim)
+    return m
 
-    def init_hidden(self, batch_size):
-        return (torch.zeros(batch_size, self.hid_dim), torch.zeros(batch_size, self.hid_dim))
+  def forward(self, x):
+    K = self.split(self.Wk(x))
+    Q = self.split(self.Wq(x))
+    V = self.split(self.Wv(x))
+    out = self.att(K, Q, V)
+    return self.Wo(self.combine(out))
+   
+

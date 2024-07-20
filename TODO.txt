@@ -34,3 +34,5 @@ A = x @ Q @ KT @ xT
 O = A @ V
 
    (seq, seq) @ (seq, dim)
+
+

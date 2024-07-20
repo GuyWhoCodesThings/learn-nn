@@ -3,7 +3,7 @@ import { FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider, signInWit
 import { auth } from '../firebase.ts';
 import { NavLink, useNavigate } from 'react-router-dom'
 import { FaGoogle } from "react-icons/fa";
-import { AiFillCodeSandboxCircle } from "react-icons/ai";
+import { GiTorch } from "react-icons/gi";
  
 const SignIn = () => {
     const navigate = useNavigate();
@@ -56,7 +56,7 @@ const SignIn = () => {
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             
-            <AiFillCodeSandboxCircle size={100} className='mx-auto w-auto text-red-500' />
+            < GiTorch size={100} className='mx-auto w-auto text-red-500 border-2 rounded-full' />
             <h2 className="mt-4 text-center text-2xl font-bold leading-9 tracking-tight ">
               Login to your account
             </h2>

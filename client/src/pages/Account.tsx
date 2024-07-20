@@ -1,6 +1,5 @@
 import { useState } from "react"
-import { IoIosCheckmarkCircle } from "react-icons/io";
-import { EmailAuthProvider, reauthenticateWithCredential, sendEmailVerification, updatePassword, User, verifyBeforeUpdateEmail } from "firebase/auth";
+import { EmailAuthProvider, reauthenticateWithCredential, updatePassword, User, verifyBeforeUpdateEmail } from "firebase/auth";
 
 type AccountType = {
   user: User
@@ -16,19 +15,6 @@ const Account = (props: AccountType) => {
     const [change, setChange] = useState(true)
 
 
-    const handleVerification = (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      setError('')
-      setMessage('')
-      sendEmailVerification(props.user)
-      .then(() => {
-        setMessage('verification email sent!')
-      })
-      .catch((err) => {
-        setError(JSON.stringify(err))
-      })
-
-    }
 
     const handlePasswordUpdate = (): void => {
 
@@ -105,25 +91,12 @@ const Account = (props: AccountType) => {
 
     return (
         <div 
-        className="w-full max-w-2xl h-full mt-16 text-left">
+        className="w-screen h-full mt-8 flex items-center justify-center">
           <main
-          className="container w-full mx-auto bg-none p-4 rounded-md flex flex-col gap-8">
+          className="container w-1/3 bg-none p-4 rounded-md flex flex-col gap-8">
             
 
             <h2 className="text-4xl justify-center flex gap-2">Account</h2>
-
-            <div className="flex flex-col items-center justify-center gap-2">
-              <p>registered email: {props.user.email}</p>
-              {props.user.emailVerified ? 
-              <p className="flex gap-1 items-center">email verified <IoIosCheckmarkCircle size={15} className="text-green-500" /></p>
-              : 
-              <button
-              onClick={(e) => handleVerification(e)}
-              className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                Send Verification Email
-              </button>}
-            </div>
-
             
             <form className="space-y-6">
               <p className="text-center">I want to change my</p>
@@ -158,9 +131,7 @@ const Account = (props: AccountType) => {
                   className="p-1 block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
-            
-            
-           
+  
               <div>
                 <div className="flex items-center justify-between">
                   <label htmlFor="password" className="block text-sm font-medium leading-6 ">

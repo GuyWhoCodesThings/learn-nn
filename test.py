@@ -4,11 +4,6 @@ import torch
 import io
 import submission
 from functools import wraps
-import resource 
-
-def limit_memory(maxsize): 
-    soft, hard = resource.getrlimit(resource.RLIMIT_AS) 
-    resource.setrlimit(resource.RLIMIT_AS, (maxsize, hard)) 
 
 class Capturing(list):
     def __enter__(self):
@@ -28,8 +23,6 @@ if __name__ == '__main__':
     class_name = sys.argv[1]
     inputs = []
     inits = []
-    generator = torch.Generator()
-    generator.manual_seed(0) #
     if len(sys.argv) <= 4:
         inputs.append(torch.tensor(json.loads(sys.argv[3]), dtype=torch.float32)) # input
     elif len(sys.argv) == 5:
@@ -53,8 +46,7 @@ if __name__ == '__main__':
     
     with Capturing() as output:
         try:
-            print("Initial memory usage:", resource.getrusage(resource.RUSAGE_SELF).ru_maxrss, "bytes")
-            limit_memory(1024 * 1024 * 1024 * 512)
+          
             if len(sys.argv) == 5:
                 pred = m(*inputs)
                 response['result'] = str(pred)
@@ -71,8 +63,6 @@ if __name__ == '__main__':
             response['message'] = 'passed'
 
             
-            print("Memory usage after setting limit:", resource.getrusage(resource.RUSAGE_SELF).ru_maxrss, "bytes")
-
         except AssertionError as e:
             response['message'] = f'failed: {e}'
     

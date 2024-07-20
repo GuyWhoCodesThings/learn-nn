@@ -1,5 +1,5 @@
-import { AiFillCodeSandboxCircle } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
+
 
 
 
@@ -11,7 +11,6 @@ const UnAuthNav = () => {
             <ul className="flex justify-between items-center gap-10 w-full pr-5 pl-5">
                 <li>
                     <NavLink to="/" className="text-white flex items-center gap-1">
-                        <AiFillCodeSandboxCircle size={25} className='mx-auto w-auto text-red-500' />
                         Problem List
                     </NavLink>
                 </li>
@@ -20,9 +19,6 @@ const UnAuthNav = () => {
                         
                         <NavLink to="/about" className="flex items-center text-white gap-1">
                             <p>About</p>
-                        </NavLink>
-                        <NavLink to="/contact" className="flex items-center text-white gap-1">
-                            <p>Contact</p>
                         </NavLink>
                         <NavLink to="/sign-in" className="text-white">
                             Login

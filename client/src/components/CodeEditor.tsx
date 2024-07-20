@@ -53,10 +53,10 @@ const CodeEditor = (props: EditorType): JSX.Element => {
         </div>
 
         <div className="gap-2 flex">
-          <button onClick={() => props.save(code)} className='items-center flex bg-blue-600'>
+          <button onClick={() => props.save(code)} className='items-center flex bg-blue-500 hover:text-white hover:font-bold focus:text-white focus-visible:text-white'>
               Save
           </button>
-          <button onClick={() => props.run(code)} className='items-center flex bg-green-600'>
+          <button onClick={() => props.run(code)} className='items-center flex bg-green-500 hover:text-white hover:font-bold focus:text-white focus-visible:text-white'>
             Submit
           </button>
         </div>
