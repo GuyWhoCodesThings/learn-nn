@@ -4,6 +4,7 @@ import torch
 import io
 import submission
 from functools import wraps
+import resource
 
 class Capturing(list):
     def __enter__(self):
@@ -37,15 +38,6 @@ if __name__ == '__main__':
             inits.append(json.loads(a)) # dim_in 
         for a in sys.argv[-3:]:    
             inputs.append(torch.tensor(json.loads(a), dtype=torch.float32)) # input
-        
-    # 2-3 inits - 1 input => 3-4
-    #2 inits #3 inputs => 5 + 1 + 1
-
-    # name-1    1
-    # output-1    1
-    #inits - 2   2
-    # input-1    3
-    # TOT=6    8
     try:
         class_ref = getattr(submission, class_name)
     except AttributeError:
@@ -55,8 +47,9 @@ if __name__ == '__main__':
     m = class_ref(*inits)
     
     with Capturing() as output:
+        resource.setrlimit(resource.RLIMIT_AS, (1024 * 1024 * 1024 * 400, 1024 * 1024 * 1024 * 400))
         try:
-          
+            
             if len(sys.argv) == 5:
                 pred = m(*inputs)
                 response['result'] = str(pred)

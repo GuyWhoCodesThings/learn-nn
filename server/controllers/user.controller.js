@@ -70,10 +70,7 @@ export const saveUserCode = async (req, res) => {
     try {
         const uid = req.uid;
         const { url, code, completed, time } = req.body;
-
-        console.log(`completed: ${completed}`)
-
-       
+   
         if (typeof url !== 'string') {
             res.status(400).send('url must be a string');
             return;
