@@ -28,9 +28,7 @@ const ProblemPage = (props: PageType): JSX.Element => {
   const [isActive, setActive] = useState(false);
   const [userCode, setUserCode] = useState('');
 
-
   const doUpdateWork = (userProblem: UserProblem) => {
-    console.log(userProblem)
     if (userProblem.code !== '') {
       setTime(userProblem.time)
       setUserCode(userProblem.code);
@@ -133,7 +131,7 @@ const ProblemPage = (props: PageType): JSX.Element => {
 
   return (
 
-    <div className="w-screen h-screen bg-none mt-16 mb-16 flex flex-col">
+    <div className="w-screen h-screen bg-none mt-12 mb-12 flex flex-col">
       {!props.currentUser && problem &&
         <div className="text bg-blue-400 bg-opacity-30">
           You need to <NavLink to="/sign-in">Login / Sign Up</NavLink> to run code

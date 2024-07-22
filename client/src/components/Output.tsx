@@ -132,38 +132,31 @@ const Output = (props: OutputProps) => {
                                            input =
                                         </h3>
                                         <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4 flex gap-2">
-                                            <Matrix matrix={tests[activeIdx][4]} />
-                                        </div>
-                                    </div>
-                                    :
-                                    props.problem.tests[activeIdx].length === 6 ?
-                                    <div>   
-                                        <h3 className="mb-1">
-                                        layer initialization = {tests[activeIdx][0]}({tests[activeIdx][2]}, {tests[activeIdx][3]}, {tests[activeIdx][4]})
-                                        </h3>    
-                                        <h3 className="mb-1">
-                                           input =
-                                        </h3>
-                                        <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4 flex gap-2">
-                                            <Matrix matrix={tests[activeIdx][5]} />
+                                            <Matrix matrix={tests[activeIdx][tests[activeIdx].length - 1]} />
                                         </div>
                                     </div>
                                     :
                                     <div>   
                                         <h3 className="mb-1">
-                                        layer initialization = {tests[activeIdx][0]}({tests[activeIdx][3]}, {tests[activeIdx][4]}, {tests[activeIdx][5]})
+                                        layer initialization = {tests[activeIdx][0]}({tests[activeIdx][2]}, {tests[activeIdx][3]}{tests[activeIdx].length > 7 && ", " + tests[activeIdx][4]})
                                         </h3>    
                                         <h3 className="mb-1">
-                                           input =
+                                           Query =
                                         </h3>
                                         <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4 flex gap-2">
-                                            <Matrix matrix={tests[activeIdx][6]} />
+                                            <Matrix matrix={tests[activeIdx][tests[activeIdx].length - 3]} />
+                                        </div>
+                                        <h3 className="mb-1">
+                                           Key, Value =
+                                        </h3>
+                                        <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4 flex gap-2">
+                                            <Matrix matrix={tests[activeIdx][tests[activeIdx].length - 1]} />
                                         </div>
                                     </div>
                                     
                                 }
                                 </div>
-                                {props.problem.tests[activeIdx].length < 7 ?
+                                
                                 <div className="flex-col items-center m-2 text-left">
                                 
                                     <h3 className="mb-1">
@@ -175,19 +168,7 @@ const Output = (props: OutputProps) => {
                                     </div>
                                     
                                 </div>
-                                :
-                                <div className="flex-col items-center m-2 text-left">
                                 
-                                    <h3 className="mb-1">
-                                        target = 
-                                    </h3>
-                                    <div className="bg-zinc-700 text-left p-1 rounded-md w-full pl-4">
-                                       <Matrix matrix={tests[activeIdx][1]} />
-                                        <Matrix matrix={tests[activeIdx][2]} />
-                
-                                    </div>                    
-                                </div>
-                                }
                                 
 
                                 { props.results &&

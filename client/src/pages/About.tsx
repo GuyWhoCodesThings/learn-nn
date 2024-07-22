@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 export default function About() {
   return (
     <div 
-    className="w-screen bg-none mt-16 mb-16 text-left">
+    className="w-screen bg-none mt-12 mb-12 text-left">
       <main
       
       className="container mx-auto bg-none p-4 rounded-md flex flex-col gap-8 items-center">
@@ -37,7 +37,7 @@ export default function About() {
           <div className="flex flex-col gap-4  w-fit m-2 mt-4 h-fit justify-center items-center text-left max-w-xlg md:w-1/2 lg:w-1/2">
             <p className="">
               This project was partly inspired by the course CSE 446 at UW. I really enjoyed the class overall, but at times noticed that there was a lot of extra Python setup work (setting up the environment, figuring out which data structures were used to store model parameters during SGD, etc.) during the projects that took away from coding the core of the algorithms. So, I decided to create a project that allows users to focus solely on the layers themselves without all the other setup work.
-              If you enjoy this project, consider connecting with me on <NavLink to="https://www.linkedin.com/in/guy-cohen12/">Linkedin</NavLink> to stay updated on new projects.
+              If you enjoy this project, consider connecting with me on <NavLink to="https://www.linkedin.com/in/guy-cohen12/">Linkedin</NavLink> to stay up-to-date on my other work.
             </p>
             <p className="font-light opacity-80">more coming soon...</p>
           </div>

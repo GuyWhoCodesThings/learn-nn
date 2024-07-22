@@ -13,7 +13,7 @@ const Matrix = (props: MatrixProps) => {
 
             <ul className='flex flex-col'>
                 
-                {m.map((nums: string, idx: number) => <li key={idx}>{nums}{idx === m.length - 1 && ""}</li>)}
+                {m.map((nums: string, idx: number) => <li className="text-sm" key={idx}>{nums}{idx === m.length - 1 && ""}</li>)}
                 
             </ul> 
         )

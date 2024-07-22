@@ -28,14 +28,24 @@ if __name__ == '__main__':
     elif len(sys.argv) == 5:
         inputs.append(torch.tensor(json.loads(sys.argv[3]), dtype=torch.float32)) # y_pred
         inputs.append(torch.tensor(json.loads(sys.argv[4]))) # y_true
-    elif len(sys.argv) <= 7:
+    elif len(sys.argv) <= 6:
         for a in sys.argv[3:-1]:    
             inits.append(json.loads(a)) # dim_in 
         inputs.append(torch.tensor(json.loads(sys.argv[-1]), dtype=torch.float32)) # input
     else:
-        for a in sys.argv[4:-1]:
-            inits.append(json.loads(a)) # dim_in
-        inputs.append(torch.tensor(json.loads(sys.argv[-1]), dtype=torch.float32)) # input
+        for a in sys.argv[3:-3]:    
+            inits.append(json.loads(a)) # dim_in 
+        for a in sys.argv[-3:]:    
+            inputs.append(torch.tensor(json.loads(a), dtype=torch.float32)) # input
+        
+    # 2-3 inits - 1 input => 3-4
+    #2 inits #3 inputs => 5 + 1 + 1
+
+    # name-1    1
+    # output-1    1
+    #inits - 2   2
+    # input-1    3
+    # TOT=6    8
     try:
         class_ref = getattr(submission, class_name)
     except AttributeError:
@@ -51,11 +61,6 @@ if __name__ == '__main__':
                 pred = m(*inputs)
                 response['result'] = str(pred)
                 torch.testing.assert_close(pred, torch.tensor(json.loads(sys.argv[2]), dtype=torch.float32).squeeze(), rtol=1e-2, atol=1e-4)
-            elif len(sys.argv) == 8:
-                out, hid = m(*inputs)
-                response['result'] = [str(out), str(hid)]
-                torch.testing.assert_close(out, torch.tensor(json.loads(sys.argv[2]), dtype=torch.float32), rtol=1e-2, atol=1e-4)
-                torch.testing.assert_close(hid, torch.tensor(json.loads(sys.argv[3]), dtype=torch.float32), rtol=1e-2, atol=1e-4)
             else:
                 pred = m(*inputs)
                 response['result'] = str(pred)
