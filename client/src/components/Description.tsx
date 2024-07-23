@@ -59,7 +59,7 @@ const Description = (props: DescProps): JSX.Element => {
                 </button>
                 <button
                onClick={() => setTab(false)}
-                className="bg-none p-0 flex items-center text-center">
+                className={`bg-none p-0 flex items-center text-center`}>
                     Solution
                 </button>
              
@@ -93,7 +93,7 @@ const Description = (props: DescProps): JSX.Element => {
                         </div>
 
                         <NavLink to="../help" className="text-yellow-500">
-                            <IoIosHelpCircleOutline size={35} />
+                            <IoIosHelpCircleOutline size={30} />
                         </NavLink>
                         
                     </h3>
