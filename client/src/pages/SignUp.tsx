@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import {  createUserWithEmailAndPassword, FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider, signInWithPopup  } from 'firebase/auth';
+import {  createUserWithEmailAndPassword, FacebookAuthProvider, getAdditionalUserInfo, GithubAuthProvider, GoogleAuthProvider, signInWithPopup  } from 'firebase/auth';
 import { auth } from '../firebase.ts';
 import { createUser } from '../server/user.ts';
 import { useState } from 'react';
@@ -29,7 +29,10 @@ const SignUp = (props: {initError?: string}) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         // The signed-in user info.
         const user = result.user;
-        createUser(user, (name: string) => console.log(`user ${name} saved`))
+        const addInfo = getAdditionalUserInfo(result)
+        if (addInfo?.isNewUser) {
+          createUser(user, (name: string) => console.log(`user ${name} saved`))
+        }
         navigate("/")
         // IdP data available using getAdditionalUserInfo(result)
         // ...
@@ -141,7 +144,7 @@ const SignUp = (props: {initError?: string}) => {
             </p>
 
             <div className='flex flex-col gap-4 mt-8 text-sm font-light'>
-                <p>or you can sign up with</p>
+                <p>or sign up with</p>
                 <div className='flex gap-1 w-full justify-center'>
                   {/* <button
                     onClick={(e) => handlePopup(e, 'gi')}

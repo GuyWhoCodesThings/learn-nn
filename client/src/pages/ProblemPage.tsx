@@ -79,7 +79,6 @@ const ProblemPage = (props: PageType): JSX.Element => {
       setActive(true);
       runProblem(code, tests, (o: Submission) => {
         setActive(false);
-        console.log(o);
         setOut(o);
 
         let correct = 0;
@@ -112,12 +111,12 @@ const ProblemPage = (props: PageType): JSX.Element => {
     if (props.currentUser && problem) {
       try {
         
-        saveWork(props.currentUser, code, problem.url, completed, time, (msg) => {
+        saveWork(props.currentUser, code, problem.url, completed, time, () => {
           if (props.updateUserInfo) {
             props.updateUserInfo();
           }
           props.alert("Saved to DB", "info");
-          console.log(msg);
+          
         });
       } catch (error) {
         console.log(error);
@@ -143,7 +142,7 @@ const ProblemPage = (props: PageType): JSX.Element => {
         <Panel defaultSize={35} minSize={10}>
           {problem && <Description problem={problem} accepted={accepted} currentUser={props.currentUser} />}
         </Panel>
-        <PanelResizeHandle className='w-1 hover:bg-blue-400' />
+        <PanelResizeHandle className='w-1 hover:bg-blue-400 ' />
         <Panel defaultSize={65} minSize={10}>
           <PanelGroup autoSaveId="example" direction="vertical">
             <Panel defaultSize={80} className='h-full w-full' minSize={10}>

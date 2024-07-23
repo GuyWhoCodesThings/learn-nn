@@ -43,21 +43,9 @@ export default function About() {
           </div>
         </div>
 
-        {/* <p className="text-center flex justify-center items-center gap-1">
-          
-            Connect with me on
-            <NavLink className="flex items-center" to="www.linkedin.com/in/guy-cohen12">
-            Linked<FaLinkedin /> 
-            </NavLink>
-            to stay up-to-date
-        
-        </p> */}
-
         <div className="flex justify-center mt-10">
           <NavLink to="/problem/relu" className="font-light">{"<"} start coding {"/>"}</NavLink>
         </div>
-        
-        
         
       </main>
      

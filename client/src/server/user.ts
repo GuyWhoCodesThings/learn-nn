@@ -136,7 +136,6 @@ const doLoadUserError = (msg: string): void => {
 export type LoadWorkCallback = (work: UserProblem) => void;
 
 export const loadWork = (user: User, url: string, cb: LoadWorkCallback): void => {
-  console.log('trying to load user code...')
   user.getIdToken(true)
   .then((idToken) => {
     fetch(`${import.meta.env.VITE_API_URL}/user/code?url=${url}` , {
@@ -183,7 +182,7 @@ const doLoadWorkError = (msg: string): void => {
 };
 
 
-export type SaveWorkCallback = (msg: string) => void;
+export type SaveWorkCallback = () => void;
 
 export const saveWork = (user: User, code: string, url: string, completed: boolean, time: number, cb: SaveWorkCallback) => {
 
@@ -209,7 +208,7 @@ export const saveWork = (user: User, code: string, url: string, completed: boole
 }
 const doSaveWorkResp = (res: Response, cb: SaveWorkCallback): void => {
   if (res.status === 200) {
-    res.json().then((msg) => cb(msg))
+    res.json().then(() => cb())
       .catch(() => doSaveWorkError("200 response is not JSON"));
   } else if (res.status === 400) {
     res.text().then(doSaveWorkError)

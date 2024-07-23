@@ -1,9 +1,10 @@
 import {useState} from 'react';
-import { FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { FacebookAuthProvider, getAdditionalUserInfo, GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth } from '../firebase.ts';
 import { NavLink, useNavigate } from 'react-router-dom'
 import { FaGoogle } from "react-icons/fa";
 import { GiTorch } from "react-icons/gi";
+import { createUser } from '../server/user.ts';
  
 const SignIn = () => {
     const navigate = useNavigate();
@@ -15,10 +16,16 @@ const SignIn = () => {
       e.preventDefault()
       const provider = providerName === 'go' ? new GoogleAuthProvider() : (providerName === 'fa' ? new FacebookAuthProvider() : new GithubAuthProvider())
       signInWithPopup(auth, provider)
-      .then(() => {
+      .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         // The signed-in user info.
+        const addInfo = getAdditionalUserInfo(result)
+        if (addInfo?.isNewUser) {
+          createUser(result.user, (name: string) => console.log(`user ${name} saved`))
+        }
         navigate("/")
+
+        
         // IdP data available using getAdditionalUserInfo(result)
         // ...
       }).catch((error) => {
@@ -26,7 +33,12 @@ const SignIn = () => {
         const errorCode = error.code;
         const errorMessage = error.message;
         // The email of the user's account used.
-        setError(errorCode + "" + errorMessage)
+        if (errorCode === undefined || errorMessage === undefined) {
+          setError(error)
+        } else {
+          setError(errorCode + "" + errorMessage)
+        }
+        
         // ...
       });
     }
@@ -127,7 +139,7 @@ const SignIn = () => {
             </p>
 
             <div className='flex flex-col gap-4 mt-8 text-sm font-light'>
-                <p>or you can login with</p>
+                <p>or you login with</p>
                 <div className='flex gap-1 w-full justify-center'>
                   {/* <button
                     onClick={(e) => handlePopup(e, 'gi')}

@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 const UnAuthNav = () => {
     
     return (
-        <div className="fixed top-0 left-0 z-50 w-full p-3 bg-zinc-800">
+        <div className="fixed top-0 left-0 z-50 w-full p-3 bg-zinc-950">
             <ul className="flex justify-between items-center gap-10 w-full pr-5 pl-5">
                 <li>
                     <NavLink to="/" className="text-white flex items-center gap-1">
@@ -19,6 +19,9 @@ const UnAuthNav = () => {
                         
                         <NavLink to="/about" className="flex items-center text-white gap-1">
                             <p>About</p>
+                        </NavLink>
+                        <NavLink to="/help" className="flex items-center text-white gap-1">
+                            <p>Help</p>
                         </NavLink>
                         <NavLink to="/sign-in" className="text-white">
                             Login
