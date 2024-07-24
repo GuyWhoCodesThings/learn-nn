@@ -105,7 +105,7 @@ export const python = (req, res) => {
                 out: [],    // To capture stdout messages
                 result: "", // To store the final result
                 message: "", // To store the message (e.g., 'passed' or 'failed')
-                error: "unsafe code",   // To store any errors encountered
+                error: "imports and other unsafe operations not allowed",   // To store any errors encountered
                 time: 0
             }})
         }
