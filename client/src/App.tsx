@@ -114,7 +114,7 @@ function App() {
           <p className='text-sm items-center text-center pt-2 flex opacity-60'>On the bright side, you can click on this number as you wait</p>
 
           <div className='flex flex-col justify-center items-center m-2 '>
-            <p className='flex items-center gap-1 pr-1'>CLICK ME <FaArrowDown size={16} /></p>
+            <p className='flex items-center gap-1 pr-1'>CLICK ME <FaArrowDown className=' animate-pulse' size={16} /></p>
             <button  
             className="p-2 rounded w-8 h-8 text-4xl animate-bounce"
             onClick={() => setCount(count + 1)}>
