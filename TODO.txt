@@ -1,20 +1,17 @@
-fix env file for server, firebase auth not working
-
+fix tests for linear and also loss functions, should be 2d
+test login signup more
+finish help page:
+technical -> how to use problem page (split windows, stdout, stderr, result)
+resources -> link to articles
+add delay to how many times you ca submit
 
 Add:
-
-LSTM
-Attention
-multi head attention
-Momentum SGD
-SGD
 
 (maybes:
 Linear Regression (kernel)
 )
 
-Finish:
-RNN -> have forward be for whole sequence
+
 
 resources:
 https://github.com/dsgiitr/d2l-pytorch/blob/master/Ch12_Optimization_Algorithms/Momentum.ipynb
@@ -25,14 +22,5 @@ https://stackoverflow.com/questions/42364694/consecutive-writings-to-files-in-th
 
 https://towardsdatascience.com/build-your-own-transformer-from-scratch-using-pytorch-84c850470dcb
 
-
-A = x @ Q @ KT @ xT
-   (seq, dim) (dim, dv ) (dv, dim) @ (dim, seq)
-
-   (seq, seq)
-
-O = A @ V
-
-   (seq, seq) @ (seq, dim)
 
 

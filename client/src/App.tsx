@@ -17,7 +17,6 @@ import { userInfoToSet } from './functions.ts';
 import Reset from './pages/Reset.tsx';
 import About from './pages/About.tsx';
 import Account from './pages/Account.tsx';
-import Help from './pages/Help.tsx';
 
 export type iSet = 
 {
@@ -33,6 +32,7 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [alert, setAlert] = useState<{ message: string, theme: string } | null>(null)
   const [infoSet, setInfoSet] = useState<iSet | undefined>(undefined)
+
 
 
   const doLoadChange = (b: boolean): void => {
@@ -126,7 +126,7 @@ function App() {
     {user === null || user === undefined ?
       <Routes>
         <Route path="/about" element={<About />} />
-        <Route path="/help" element={<Help />} />
+
         <Route path="/" element={<Home problems={problems}/>} />
         <Route path="/problem/:id" element={<ProblemPage alert={(m,t) => doAlert(m,t)} changeLoading={(b) => doLoadChange(b)}/>} />
         <Route path="/sign-in" element={<SignIn  />} />
@@ -135,7 +135,7 @@ function App() {
       </Routes> : 
       <Routes>
         <Route path="/about" element={<About />} />
-        <Route path="/help" element={<Help />} />
+    
         <Route path="/" element={<Home infoSet={infoSet} problems={problems} />} />
         <Route path="/problem/:id" element={<ProblemPage updateUserInfo={() => doUserInfoChange(user)} alert={(m,t) => doAlert(m,t)} currentUser={user} changeLoading={(b) => doLoadChange(b)}/>} />
         <Route path="/account" element={<Account user={user} />} />

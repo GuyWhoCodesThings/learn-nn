@@ -20,9 +20,7 @@ const UnAuthNav = () => {
                         <NavLink to="/about" className="flex items-center text-white gap-1">
                             <p>About</p>
                         </NavLink>
-                        <NavLink to="/help" className="flex items-center text-white gap-1">
-                            <p>Help</p>
-                        </NavLink>
+                        
                         <NavLink to="/sign-in" className="text-white">
                             Login
                         </NavLink>

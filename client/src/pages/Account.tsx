@@ -95,7 +95,6 @@ const Account = (props: AccountType) => {
           <main
           className="container w-1/3 bg-none p-4 rounded-md flex flex-col gap-8">
             
-
             <h2 className="text-4xl justify-center flex gap-2">Account</h2>
             
             <form className="space-y-6">

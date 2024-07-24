@@ -6,7 +6,6 @@ import { FaLock } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import 'katex/dist/katex.min.css';
 import Latex from 'react-latex-next';
-import { IoIosHelpCircleOutline } from "react-icons/io";
 
 type DescProps = {
     currentUser?: User,
@@ -74,9 +73,9 @@ const Description = (props: DescProps): JSX.Element => {
                 <div className="pt-2 pb-2">
                   
                     
-                    <h3 className="font-semibold text-xl flex gap-2 items-center justify-between">
+                    <h3 className="font-semibold text-xl flex gap-2 items-center justify-start">
                         
-                        <div>
+                        
                         {props.accepted === 1 ?
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8 text-green-500">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
@@ -90,11 +89,9 @@ const Description = (props: DescProps): JSX.Element => {
                         <div></div>
                         }
                         {problem.title}
-                        </div>
+                        
 
-                        <NavLink to="../help" className="text-yellow-500">
-                            <IoIosHelpCircleOutline size={30} />
-                        </NavLink>
+                       
                         
                     </h3>
                   

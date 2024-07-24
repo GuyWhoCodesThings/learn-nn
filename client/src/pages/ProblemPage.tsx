@@ -27,6 +27,7 @@ const ProblemPage = (props: PageType): JSX.Element => {
   const [out, setOut] = useState<Submission | undefined>(undefined);
   const [isActive, setActive] = useState(false);
   const [userCode, setUserCode] = useState('');
+  const [recentRun, setRecentRun] = useState(false)
 
   const doUpdateWork = (userProblem: UserProblem) => {
     if (userProblem.code !== '') {
@@ -57,8 +58,6 @@ const ProblemPage = (props: PageType): JSX.Element => {
             setProblem({ ...p, starterCode: JSON.parse(current) });
           }
         }
-        
-        
       });
     };
     if (id) {
@@ -72,9 +71,26 @@ const ProblemPage = (props: PageType): JSX.Element => {
     }
   }, [id, props.currentUser]);
 
+  const submissionTimeout = () => {
+    setTimeout(() => {
+      setRecentRun(false)
+    }, 10000)
+  }
+
   const run = (code: string): void => {
 
+    if (recentRun) {
+      props.alert("Only 1 submission allowed every 10 seconds", "error")
+      return;
+    }
+
+    setRecentRun(true)
+    submissionTimeout()
+  
     if (props.currentUser && problem) {
+
+      props.alert("refresh page if submission takes longer than 30 seconds", "info")
+
       const tests = problem.tests;
       setActive(true);
       runProblem(code, tests, (o: Submission) => {
@@ -93,11 +109,9 @@ const ProblemPage = (props: PageType): JSX.Element => {
             setAccepted(1);
             save(code, true, o.time);
             props.alert(`${problem.title} completed!`, "success");
-          
         } else {
             setAccepted(0);
-            save(code, false, o.time);
-            
+            save(code, false, o.time);  
         }
       });
     } else {
@@ -132,7 +146,7 @@ const ProblemPage = (props: PageType): JSX.Element => {
 
     <div className="w-screen h-screen bg-none mt-12 mb-12 flex flex-col">
       {!props.currentUser && problem &&
-        <div className="text bg-blue-400 bg-opacity-30">
+        <div className="text bg-blue-400 bg-opacity-35">
           You need to <NavLink to="/sign-in">Login / Sign Up</NavLink> to run code
         </div>
       }
@@ -142,16 +156,16 @@ const ProblemPage = (props: PageType): JSX.Element => {
         <Panel defaultSize={35} minSize={10}>
           {problem && <Description problem={problem} accepted={accepted} currentUser={props.currentUser} />}
         </Panel>
-        <PanelResizeHandle className='w-1 hover:bg-blue-400 ' />
+        <PanelResizeHandle className='w-2 opacity-10 bg-blue-500 hover:opacity-100 mr-1' />
         <Panel defaultSize={65} minSize={10}>
           <PanelGroup autoSaveId="example" direction="vertical">
-            <Panel defaultSize={80} className='h-full w-full' minSize={10}>
+            <Panel defaultSize={80} className='h-full w-full min-w-10' minSize={10}>
               <span className={isActive ? 'opacity-70' : ''}>
-                <LoadingOverlay active={isActive} spinner text='running code... (15 seconds)' />
+                <LoadingOverlay active={isActive} spinner text='running code... (15 seconds) refresh if longer than 25 seconds' />
                 {problem && <CodeEditor starterCode={problem.starterCode} userCode={userCode} run={(c) => run(c)} save={(c) => save(c, false, -1)} />}
               </span>
             </Panel>
-            <PanelResizeHandle className='h-1 hover:bg-blue-400' />
+            <PanelResizeHandle className='h-2 opacity-10 bg-blue-500 hover:opacity-100 mt-1' />
             <Panel defaultSize={20} minSize={10} className='h-full w-full'>
               {problem && <Output accepted={accepted} problem={problem} results={out} time={time} />}
             </Panel>

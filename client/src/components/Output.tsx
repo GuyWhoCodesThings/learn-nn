@@ -30,7 +30,7 @@ const Output = (props: OutputProps) => {
     
 
     return (
-        <div className='rounded-md bg-zinc-800 mt-1 h-full w-full'>
+        <div className='rounded-md bg-zinc-800 mt-1 h-screen w-full'>
             <div className='flex justify-between bg-zinc-700 h-8 rounded-t-md text-left pl-2 items-center pt-4 pb-4'>
                 <div className="flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -92,7 +92,7 @@ const Output = (props: OutputProps) => {
                         </div>
                         
                     </div>
-                    <div className="ml-2 w-full flex-col">
+                    <div className="ml-2 w-full flex-col text-sm">
                         {props.problem && props.problem.tests[activeIdx] && (
                             <>
                                 <div className="flex-col items-center m-2 text-left">
