@@ -17,6 +17,7 @@ import { userInfoToSet } from './functions.ts';
 import Reset from './pages/Reset.tsx';
 import About from './pages/About.tsx';
 import Account from './pages/Account.tsx';
+import { FaArrowDown } from "react-icons/fa";
 
 export type iSet = 
 {
@@ -94,8 +95,8 @@ function App() {
 
   if (loading || problems === null) {
     return (
-      <div className='p-16 mt-16 flex flex-col gap-6'>
-        <div className='flex items-center gap-4'>
+      <div className='p-16 mt-16 flex flex-col w-screen items-center'>
+        <div className='flex items-center gap-4 mb-16'>
           <h3
           className=' text-3xl'>
             Loading
@@ -111,7 +112,16 @@ function App() {
         </p>
         <div className='text-sm flex gap-2 justify-between items-center'>
           <p className='text-sm items-center text-center pt-2 flex opacity-60'>On the bright side, you can click on this number as you wait</p>
-          <button  className={`p-2 text-2xl  rounded w-8 h-8 text-center scale-${count * 100}`} onClick={() => setCount(count + 1)}>{count}</button>
+
+          <div className='flex flex-col justify-center items-center m-2'>
+            <p className='flex items-center gap-2'>CLICK ME <FaArrowDown size={16} /></p>
+            <button  
+            className="p-2 rounded w-8 h-8 text-4xl animate-bounce"
+            onClick={() => setCount(count + 1)}>
+              {count}
+            </button>
+          </div>
+          
         </div>
         
         
