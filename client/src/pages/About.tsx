@@ -13,7 +13,7 @@ export default function About() {
             Making PyTorch Easy
         
           </h1>
-          <p className="font-light opacity-80 w-1/2">
+          <p className="  font-light opacity-80 w-3/4">
             With the tests and scaffolding already built-in, you can just focus on the learning
           </p>
         </div>
