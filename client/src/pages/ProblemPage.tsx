@@ -161,7 +161,7 @@ const ProblemPage = (props: PageType): JSX.Element => {
           <PanelGroup autoSaveId="example" direction="vertical">
             <Panel defaultSize={80} className='h-full w-full min-w-10' minSize={10}>
               <span className={isActive ? 'opacity-70' : ''}>
-                <LoadingOverlay active={isActive} spinner text='running code... (15 seconds) refresh if longer than 25 seconds' />
+                <LoadingOverlay active={isActive} spinner text='running code...(15 seconds)' />
                 {problem && <CodeEditor starterCode={problem.starterCode} userCode={userCode} run={(c) => run(c)} save={(c) => save(c, false, -1)} />}
               </span>
             </Panel>
