@@ -108,7 +108,7 @@ function App() {
           
         </div>
         <p className='text-sm opacity-60'>
-        There seems to be some issues with the website right now ):, try coming back later
+        There seems to be some issues with the website right now ): try coming back later...
         </p>
         <div className='text-sm flex gap-2 justify-evenly items-center w-full'>
           <p className='text-sm items-center text-center pt-2 flex opacity-60'>On the bright side, you can click on this number as you wait</p>
